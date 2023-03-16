@@ -32,7 +32,7 @@ class ProductManager {
 
 let newProduct = new ProductManager()
 newProduct.getProducts()
-newProduct.addProduct('producto prueba', 'este es un producto prueba', 200, 'sin imagen', 'abc123')
+newProduct.addProduct('producto prueba', 'este es un producto prueba', 200, 'sin imagen', 'abc123', 25)
 newProduct.getProducts()
 newProduct.addProduct('producto prueba', 'este es un producto prueba', 200, 'sin imagen', 'abc123', 25)
 newProduct.getProductById(1)
