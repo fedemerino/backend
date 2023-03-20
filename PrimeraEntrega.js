@@ -4,9 +4,9 @@ class ProductManager {
     constructor() {
         this.products = products
     }
-    addProduct(title, description, price, thumbnail, code, stock) {
-        if (!products.some((prod) => prod.code === code)) {
-            if (title && description && price && thumbnail && code && stock) {
+    addProduct(title, description, price, thumbnail, code, stock) { // MÉTODO PARA AGREGAR PRODUCTOS
+        if (!products.some((prod) => prod.code === code)) { //VALIDO QUE NO EXISTA UN PRODUCTO CON EL MISMO CÓDIGO EN EL ARRAY DE PRODUCTOS
+            if (title && description && price && thumbnail && code && stock) { //VALIDO QUE TODOS LOS CAMPOS TENGAN ALGÚN VALOR
                 let newProduct = {
                     title: title,
                     description: description,
@@ -16,16 +16,16 @@ class ProductManager {
                     stock: stock,
                     id: products.length + 1
                 }
-                this.products.push(newProduct)
+                this.products.push(newProduct) //PUSHEO EL PRODUCTO AL ARRAY DE PRODUCTOS
             }
             else console.log("Hay campos sin completar")
         }
         else console.log("Ya existe un producto con ese codigo")
     };
     getProducts() {
-        console.table(this.products)
+        console.table(this.products) // MÉTODO QUE MUESTRA TODOS LOS PRODUCTOS
     };
-    getProductById(id) {
+    getProductById(id) { // MÉTODO QUE BUSCA UN PRODUCTO POR SU ID
         let getProduct = products.find((prod) => prod.id === id)
         getProduct ? console.table(getProduct) : console.log("Not found")
     };
