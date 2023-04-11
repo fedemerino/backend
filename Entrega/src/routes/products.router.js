@@ -1,23 +1,22 @@
-const express = require('express')
-const ProductManager = require('./ProductManager')
+const { Router } = require('express')
 
-const app = express()
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-const product = new ProductManager('./products.json')
-const PORT = 8080
-//GET http://localhost:8080/
-app.get('/products', async (req, res) => {
+const router = Router()
+
+const ProductManager = require('../DAOS/ProductManager')
+const product = new ProductManager('../src/products.json')
+
+
+router.get('/', async (req, res) => {
     try {
         const { limit } = req.query
         const products = await product.getProducts()
         if (!limit || limit > products.length) {
-            return res.send({
+            return res.status(200).send({
                 status: 'success',
                 results: products
             })
         }
-        return res.send({
+        return res.status(200).send({
             status: 'success',
             results: products.slice(0, limit)
         })
@@ -27,20 +26,18 @@ app.get('/products', async (req, res) => {
     }
 })
 
-app.get('/products/:pid', async (req, res) => {
+router.get('/:pid', async (req, res) => {
     try {
         const { pid } = req.params
         const productByID = await product.getProductById(parseInt(pid))
         if (!productByID) {
-            return res.send({status:'error', error:'product not found'})
+            return res.status(400).send({ status: 'error', error: 'product not found' })
         }
-        res.send({productByID})       
+        res.status(200).send({ productByID })
     }
     catch (error) {
         console.log(error)
     }
 })
 
-app.listen(PORT, () => {
-    console.log(`listing on port ${PORT}`)
-})
+module.exports = router

@@ -78,6 +78,3 @@ class ProductManager {
     }
 }
 module.exports = ProductManager
-
-let product = new ProductManager('./products.json')
-product.getProducts()
