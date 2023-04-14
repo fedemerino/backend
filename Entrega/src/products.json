@@ -1,29 +1,41 @@
 [
 	{
-		"title": "Coca Cola",
-		"description": "Coca Cola",
-		"price": 500,
-		"thumbnail": "sin imagen",
-		"code": "coca123",
-		"stock": 25,
-		"id": 1
+		"id": 1,
+		"title": "Nike Air Force 1 '07 LV8 EMB",
+		"description": "Zapatillas de Moda para Hombre",
+		"code": "NIKEAF107LV8EMB",
+		"price": 55999,
+		"status": true,
+		"stock": 10,
+		"category": "shoes",
+		"thumbnail": [
+			"./img/af107.png"
+		]
 	},
 	{
-		"title": "Sprite",
-		"description": "Sprite",
-		"price": 500,
-		"thumbnail": "sin imagen",
-		"code": "sprite123",
-		"stock": 20,
-		"id": 2
+		"id": 2,
+		"title": "Nike SB Dunk High Pro",
+		"description": "Zapatillas de Moda para Hombre",
+		"code": "NIKESBDUNKHIGHPRO",
+		"price": 65099,
+		"status": true,
+		"stock": 4,
+		"category": "shoes",
+		"thumbnail": [
+			"./img/sbdunkpro.png"
+		]
 	},
 	{
-		"title": "Fanta",
-		"description": "Fanta",
-		"price": 500,
-		"thumbnail": "sin imagen",
-		"code": "fanta123",
-		"stock": 15,
-		"id": 3
+		"id": 3,
+		"title": "Jordan Air 200E",
+		"description": "Zapatillas de Moda para Hombre",
+		"code": "JORDANA200E",
+		"price": 69999,
+		"status": true,
+		"stock": 3,
+		"category": "shoes",
+		"thumbnail": [
+			"./img/jordanair200.png"
+		]
 	}
 ]
