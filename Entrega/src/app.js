@@ -3,6 +3,7 @@ const app = express()
 const PORT = 8080
 
 const productsRouter = require('./routes/products.router')
+const cartRouter = require('./routes/cart.router')
 const { uploader } = require('./multer')
 
 app.use(express.urlencoded({ extended: true }))
@@ -11,6 +12,7 @@ app.use('/static', express.static(__dirname+'/public'))
 
 //GET http://localhost:8080/
 app.use('/api/products', productsRouter)
+app.use('/api/carts', cartRouter)
 
 app.post('/single', uploader.single('myfile'), (req, res) => {
     res.status(200).send({
