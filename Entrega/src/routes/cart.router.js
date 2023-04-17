@@ -1,7 +1,7 @@
 const { Router } = require("express")
 const router = Router()
 
-const cartManager = require("../DAOS/CartManager")
+const cartManager = require("../daos/CartManager")
 const cart = new cartManager("../src/cart.json")
 
 router.post("/", async (req, res) => {
