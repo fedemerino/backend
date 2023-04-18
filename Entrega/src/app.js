@@ -4,16 +4,17 @@ const PORT = 8080
 
 const productsRouter = require("./routes/products.router")
 const cartRouter = require("./routes/cart.router")
+const viewsRouter = require("./routes/views.router")
 const { uploader } = require("./multer")
 const handlebars = require("express-handlebars")
 const {Server} = require('socket.io')
+const { socketProduct } = require("./utils/socketProduct")
 //_________________________________________________
 const httpServer = app.listen(PORT, () => {
     console.log(`listing on port ${PORT}`)
   })
 const socketServer = new Server(httpServer)
 //_________________________________________________
-  
 
 //handlebars
 app.engine("handlebars", handlebars.engine())
@@ -34,6 +35,12 @@ app.get("/vista", (req, res) => {
 //GET http://localhost:8080/
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartRouter)
+app.use("/", viewsRouter)
+
+socketServer.on('connection', (socket) => {
+  console.log('New client connected')
+  socket.on('message')
+})
 
 app.post("/single", uploader.single("myfile"), (req, res) => {
   res.status(200).send({
