@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="static/css/styles.css">
+
+<h1>HOME</h1>
+<hr>
+<div id="productContainer">
+    {{#each products}}
+        <div class="card">
+        <img class="cardImg" src=static{{this.thumbnail}}>
+        <p class="cardTitle">{{this.title}}</p>
+        <p class="cardPrice">${{this.price}}</p>
+        </div>
+    {{/each}}
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/static/js/home.js"></script>

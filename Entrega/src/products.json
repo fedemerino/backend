@@ -9,7 +9,7 @@
 		"stock": 10,
 		"category": "shoes",
 		"thumbnail": [
-			"./img/af107.png"
+			"/img/af107.png"
 		]
 	},
 	{
@@ -22,7 +22,7 @@
 		"stock": 4,
 		"category": "shoes",
 		"thumbnail": [
-			"./img/sbdunkpro.png"
+			"/img/sbdunkpro.png"
 		]
 	},
 	{
@@ -35,7 +35,7 @@
 		"stock": 3,
 		"category": "shoes",
 		"thumbnail": [
-			"./img/jordanair200.png"
+			"/img/jordarair200.png"
 		]
 	}
 ]

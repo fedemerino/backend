@@ -13,7 +13,7 @@ const { socketProduct } = require("./utils/socketProduct")
 const httpServer = app.listen(PORT, () => {
     console.log(`listing on port ${PORT}`)
   })
-const socketServer = new Server(httpServer)
+const io = new Server(httpServer)
 //_________________________________________________
 
 //handlebars
@@ -37,15 +37,17 @@ app.use("/api/products", productsRouter)
 app.use("/api/carts", cartRouter)
 app.use("/", viewsRouter)
 
-socketServer.on('connection', (socket) => {
-  console.log('New client connected')
-  socket.on('message')
-})
+socketProduct(io)
 
-app.post("/single", uploader.single("myfile"), (req, res) => {
+/* socketServer.on('connection', (socket) => {
+  console.log('New client connected')
+}) */
+//MULTER
+/* app.post("/single", uploader.single("myfile"), (req, res) => {
   res.status(200).send({
     status: "success",
     message: "single file uploaded",
   })
 })
 
+ */
