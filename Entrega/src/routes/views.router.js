@@ -1,11 +1,13 @@
 const { Router } = require("express")
 const router = Router()
 const ProductManager = require('../daos/ProductManager')
+const { productModel } = require("../models/product.model")
 const product = new ProductManager('../src/products.json')
 
 router.get("/", async (req, res) => {
     try {
         const products = await product.getProducts()
+        //const products = await productModel.find()
         res.render('home', {products} )
     } 
     catch (error) {

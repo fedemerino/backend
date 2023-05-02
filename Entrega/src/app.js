@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 const PORT = 8080
-
+const config = require("./config/config")
 const productsRouter = require("./routes/products.router")
 const cartRouter = require("./routes/cart.router")
 const viewsRouter = require("./routes/views.router")
@@ -14,6 +14,9 @@ const httpServer = app.listen(PORT, () => {
     console.log(`listing on port ${PORT}`)
   })
 const io = new Server(httpServer)
+
+config.connectDB()
+
 //_________________________________________________
 
 //handlebars
