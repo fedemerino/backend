@@ -41,16 +41,3 @@ app.use("/api/carts", cartRouter)
 app.use("/", viewsRouter)
 
 socketProduct(io)
-
-/* socketServer.on('connection', (socket) => {
-  console.log('New client connected')
-}) */
-//MULTER
-/* app.post("/single", uploader.single("myfile"), (req, res) => {
-  res.status(200).send({
-    status: "success",
-    message: "single file uploaded",
-  })
-})
-
- */

@@ -1,9 +1,13 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model, mongoose } = require('mongoose')
 
 const collection = 'products'
 
 
 const productSchema = new Schema({
+    id: {
+        type: Schema.Types.ObjectId,
+        default: () => new mongoose.Types.ObjectId()
+      },
     title: { type: String, required: true },
     description: { type: String, required: true },
     code: { type: String, required: true },

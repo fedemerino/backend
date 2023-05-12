@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const { productModel } = require('../models/product.model')
+const {ObjectId} = require('mongodb')
 const router = Router()
 
 const ProductManager = require('../daos/ProductManager')
@@ -38,8 +39,8 @@ router.post('/', async (req, res) => {
 
     try {
         const { title, description, code, price, status, stock, category, thumbnail } = req.body
-
         let newProduct = {
+            id: new ObjectId(),
             title,
             description,
             code,

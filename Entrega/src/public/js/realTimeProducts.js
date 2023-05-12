@@ -1,5 +1,5 @@
 const socket = io()
-console.log('home')
+console.log('Realtime Products')
 
 let productContainer = document.getElementById('productContainer')
 

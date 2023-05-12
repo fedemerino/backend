@@ -1,4 +1,3 @@
-console.log('socket')
+console.log('Socket Home')
 const socket = io()
-console.log(data)
 socket.on('message', 'home')
