@@ -1,4 +1,4 @@
-const socketProductManager = require('../daos/ProductManager')
+const socketProductManager = require('../daos/mongo/ProductManager')
 const socketProducts = new socketProductManager('../src/products.json')
 
 const socketProduct = (io) => {

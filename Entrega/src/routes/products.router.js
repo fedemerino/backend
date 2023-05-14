@@ -3,10 +3,6 @@ const { productModel } = require('../models/product.model')
 const {ObjectId} = require('mongodb')
 const router = Router()
 
-const ProductManager = require('../daos/ProductManager')
-const product = new ProductManager('../src/products.json')
-
-
 router.get('/', async (req, res) => {
     try {
         let products = await productModel.find()
@@ -40,7 +36,7 @@ router.post('/', async (req, res) => {
     try {
         const { title, description, code, price, status, stock, category, thumbnail } = req.body
         let newProduct = {
-            id: new ObjectId(),
+            _id: new ObjectId(),
             title,
             description,
             code,

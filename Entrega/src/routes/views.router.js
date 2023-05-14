@@ -1,6 +1,6 @@
 const { Router } = require("express")
 const router = Router()
-const ProductManager = require('../daos/ProductManager')
+const ProductManager = require('../daos/mongo/ProductManager')
 const { productModel } = require("../models/product.model")
 const product = new ProductManager('../src/products.json')
 
