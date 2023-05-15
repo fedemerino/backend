@@ -4,14 +4,37 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Oswald', sans-serif;
+    text-decoration: none;
+    list-style: none;
+}
+a:visited{
+    color: inherit;
+}
+
+.navbar{
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    padding: 0 2rem;
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 #productContainer {
-    width: 100vw;
-    height: 100vh;
+    width: 60vw;
+    height: 100%;
     display: flex;
     justify-content: center;
     gap: 3rem;
     flex-wrap: wrap;
+    display:flex;
+}
+
+.mainContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card {
@@ -26,7 +49,15 @@
 }
 
 .cardImg {
-    height: 125px;
+    height: 200px;
     width: 200px;
     mix-blend-mode: multiply;
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
 }

@@ -25,4 +25,26 @@ router.get('/realtimeproducts' , async (req, res) => {
     }
 })
 
+router.get("/products", async (req, res) => {
+    try {
+        //const products = await product.getProducts()
+        const {page = 1} = req.query
+        const {limit = 10} = req.query
+        const {sort} = req.query
+        let products = await productModel.paginate({}, { limit: limit, page: page, lean: true })
+        const {docs, hasNextPage, hasPrevPage, prevPage, nextPage} = products
+        res.render('products', {
+            status: 'success',
+            products: docs,
+            hasNextPage,
+            hasPrevPage,
+            prevPage,
+            nextPage
+        })
+    } 
+    catch (error) {
+        console.log(error)
+    }
+})
+
 module.exports = router

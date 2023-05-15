@@ -1,15 +1,20 @@
 const { Router } = require('express')
-const { productModel } = require('../models/product.model')
-const {ObjectId} = require('mongodb')
 const router = Router()
-
+const { productModel } = require('../models/product.model')
+const { ObjectId } = require('mongodb')
 router.get('/', async (req, res) => {
     try {
-        let products = await productModel.find()
-        console.log(products)
+        let products = await productModel.paginate({}, { limit: 10, page: 1 })
+        const { docs, totalDocs, limit, totalPages, page, hasNextPage, hasPrevPage, nextPage, prevPage  } = products
         res.send({
             status: 'success',
-            payload: products
+            payload: docs,
+            totalPages,
+            prevPage,
+            nextPage,
+            page,
+            hasPrevPage,
+            hasNextPage
         })
     }
     catch (error) {
