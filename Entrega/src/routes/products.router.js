@@ -4,8 +4,31 @@ const { productModel } = require('../models/product.model')
 const { ObjectId } = require('mongodb')
 router.get('/', async (req, res) => {
     try {
-        let products = await productModel.paginate({}, { limit: 10, page: 1 })
+        const pageNumber = parseInt(req.query.page) || 1
+        const limitNumber = parseInt(req.query.limit) || 10
+        const { query, sort } = req.query
+        let prevLink = null
+        let nextLink = null
+        let mquery = {}
+        if (query) {
+            //regex to search by title no case sensitive
+            mquery.title = { $regex: new RegExp(query, 'i') };
+        }
+        let sortType = {}
+        if(sort === 'asc'){
+            sortType = { price: 1}
+        }
+        if(sort === 'desc'){
+            sortType = { price: -1}
+        }
+        let products = await productModel.paginate(mquery, { limit: limitNumber, page: pageNumber, sort: sortType })
         const { docs, totalDocs, limit, totalPages, page, hasNextPage, hasPrevPage, nextPage, prevPage  } = products
+        if(prevPage !== null){
+            prevLink = `http://localhost:8080/api/products?page=${prevPage}&limit=${limitNumber}`
+        }
+        if(nextPage !== null){
+            nextLink = `http://localhost:8080/api/products?page=${nextPage}&limit=${limitNumber}`
+        }
         res.send({
             status: 'success',
             payload: docs,
@@ -14,7 +37,9 @@ router.get('/', async (req, res) => {
             nextPage,
             page,
             hasPrevPage,
-            hasNextPage
+            hasNextPage,
+            prevLink,
+            nextLink
         })
     }
     catch (error) {
@@ -51,9 +76,7 @@ router.post('/', async (req, res) => {
             category,
             thumbnail
         }
-
         await productModel.create(newProduct)
-
         res.status(200).send({
             status: 'success',
             'newProduct': newProduct

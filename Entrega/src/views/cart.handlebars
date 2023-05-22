@@ -1,0 +1,27 @@
+<head>
+    <title>Cart View</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+    <hr>
+    {{#if cart}}
+    <h2 style="margin:2rem 0 0 2rem;">Cart ID: {{cart._id}}</h2>
+    {{#each cart.products}}
+    <div style="display:flex; margin:2rem; ">
+        <img src="/static{{this.product.thumbnail.[0]}}" alt="" style="width:150px; height:100px">
+        <ul>
+            <li style="margin: 1rem 0 1rem 1rem;">
+                <h3>Product: {{this.product.title}}</h3>
+                <p>Description: {{this.product.description}}</p>
+                <p>Quantity: {{this.quantity}}</p>
+                <p>Price per unit: {{this.product.price}}</p>
+                <button>Remove from cart</button>
+            </li>
+        </ul>
+    </div>
+    {{/each}}
+    {{else}}
+    <h1 style="margin-left:2rem;">Cart not found</h1>
+    {{/if}}
+</body>

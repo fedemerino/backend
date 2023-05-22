@@ -1,5 +1,5 @@
 const socketProductManager = require('../daos/mongo/ProductManager')
-const socketProducts = new socketProductManager('../src/products.json')
+const socketProducts = new socketProductManager('../Entrega/src/products.json')
 
 const socketProduct = (io) => {
     io.on('connection', async (socket) => {
