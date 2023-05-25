@@ -57,9 +57,15 @@ router.put("/:cid/product/:pid", async (req, res) => {
     }
     const productInCart = cart.products.find(product => product.product == pid)
    if(productInCart){
+      if(!quantity){
+        productInCart.quantity = productInCart.quantity + 1
+        await cartModel.findByIdAndUpdate(cid, cart)
+        return res.status(200).send({ status: "success", productInCart })
+      } else{
         productInCart.quantity = quantity
         await cartModel.findByIdAndUpdate(cid, cart)
         return res.status(200).send({ status: "success", productInCart })
+      }
     }
     const product = {
       product: pid, 

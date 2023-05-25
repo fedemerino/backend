@@ -5,10 +5,13 @@ const config = require("./config/config")
 const productsRouter = require("./routes/products.router")
 const cartRouter = require("./routes/cart.router")
 const viewsRouter = require("./routes/views.router")
+const cookiesRouter = require("./routes/cookies.router")
 const { uploader } = require("./multer")
-const handlebars = require("express-handlebars")
 const {Server} = require('socket.io')
+const handlebars = require("express-handlebars")
+const cookieParser = require("cookie-parser")
 const { socketProduct } = require("./utils/socketProduct")
+const session = require("express-session")
 //_________________________________________________
 const httpServer = app.listen(PORT, () => {
     console.log(`listing on port ${PORT}`)
@@ -20,9 +23,16 @@ config.connectDB()
 //_________________________________________________
 
 //handlebars
-app.engine("handlebars", handlebars.engine())
-app.set("views", __dirname + "/views")
+
+const hbs = handlebars.create({
+    helpers:{
+        multiply: function (a,b){return a*b}
+    }
+})
+
+app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
+app.set("views", __dirname + "/views")
 //handlebars
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
@@ -36,8 +46,15 @@ app.get("/vista", (req, res) => {
 })
 
 //GET http://localhost:8080/
+app.use(session({
+    secret: 'secretWord',
+    resave: true,
+    saveUninitialized: true
+}))
+app.use(cookieParser('secretWord'))
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartRouter)
 app.use("/", viewsRouter)
+app.use('/cookies', cookiesRouter)
 
 socketProduct(io)
