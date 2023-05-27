@@ -1,6 +1,11 @@
-<link rel="stylesheet" href="static/css/styles.css">
+<link rel="stylesheet" href="/static/css/styles.css">
 
 <hr>
+{{#if user}}
+    <div class="userContainer">
+        <p class="userTitle">Welcome, {{user.firstName}} {{user.lastName}}</p>
+    </div>
+    {{/if}}
 <div class="mainContainer">
     <div id="productContainer">
     {{#each products}}

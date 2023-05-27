@@ -38,7 +38,8 @@ router.get("/products", async (req, res) => {
             hasNextPage,
             hasPrevPage,
             prevPage,
-            nextPage
+            nextPage,
+            user: req.session.user
         })
     } 
     catch (error) {
@@ -61,6 +62,14 @@ router.get("/carts/:cid", async (req, res) => {
         console.log(error)
         res.render('cart', { cart: null })
     }
+})
+
+router.get('/session/login', (req, res) => {
+    res.render('login', {})
+})
+
+router.get('/session/register', (req, res) => {
+    res.render('register', {})
 })
 
 module.exports = router

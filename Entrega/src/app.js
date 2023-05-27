@@ -6,18 +6,22 @@ const productsRouter = require("./routes/products.router")
 const cartRouter = require("./routes/cart.router")
 const viewsRouter = require("./routes/views.router")
 const cookiesRouter = require("./routes/cookies.router")
+const sessionRouter = require("./routes/session.router")
 const { uploader } = require("./multer")
 const {Server} = require('socket.io')
 const handlebars = require("express-handlebars")
 const cookieParser = require("cookie-parser")
 const { socketProduct } = require("./utils/socketProduct")
 const session = require("express-session")
+
+const fileStore = require("session-file-store")(session)
+const MongoStore = require("connect-mongo")
+const {create} = require('connect-mongo')
 //_________________________________________________
 const httpServer = app.listen(PORT, () => {
     console.log(`listing on port ${PORT}`)
   })
 const io = new Server(httpServer)
-
 config.connectDB()
 
 //_________________________________________________
@@ -44,17 +48,39 @@ app.get("/vista", (req, res) => {
         title: 'ecommerce'
     })
 })
-
+//_______________________________
 //GET http://localhost:8080/
+/* app.use(session({
+    secret: 'secretWord',
+    resave: true,
+    saveUninitialized: true
+})) */
 app.use(session({
+    store: create({
+        mongoUrl: 'mongodb+srv://fedemerino:J4TviI4yCVromdLr@backend.lfn4tu6.mongodb.net/ecommerce',
+        mongoOptions: {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        },
+        ttl: 60*60*24,
+    }),
     secret: 'secretWord',
     resave: true,
     saveUninitialized: true
 }))
+app.use((req, res, next) => {
+    if(req.session && req.session.user){
+        res.locals.session = req.session.user
+        console.log('session', res.locals.session)
+    }
+    next()
+  })
+
+//_________________________________
 app.use(cookieParser('secretWord'))
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartRouter)
 app.use("/", viewsRouter)
 app.use('/cookies', cookiesRouter)
-
+app.use('/session', sessionRouter)
 socketProduct(io)

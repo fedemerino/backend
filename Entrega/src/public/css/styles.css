@@ -10,7 +10,18 @@
 a:visited{
     color: inherit;
 }
-
+a:hover{
+    color: inherit;
+}
+a:active{
+    color: inherit;
+}
+a{
+    color: inherit;
+}
+body,html{
+    height: 100%;
+}
 .navbar{
     display: flex;
     align-items: center;
@@ -60,4 +71,8 @@ a:visited{
     align-items: center;
     margin-top: 2rem;
     gap: 1rem;
+}
+
+.userContainer{
+    margin-left: 50%;
 }
