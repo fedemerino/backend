@@ -17,6 +17,8 @@ const session = require("express-session")
 const fileStore = require("session-file-store")(session)
 const MongoStore = require("connect-mongo")
 const {create} = require('connect-mongo')
+const { initPassport } = require("./config/passport.config")
+const passport = require("passport")
 //_________________________________________________
 const httpServer = app.listen(PORT, () => {
     console.log(`listing on port ${PORT}`)
@@ -55,6 +57,7 @@ app.get("/vista", (req, res) => {
     resave: true,
     saveUninitialized: true
 })) */
+
 app.use(session({
     store: create({
         mongoUrl: 'mongodb+srv://fedemerino:J4TviI4yCVromdLr@backend.lfn4tu6.mongodb.net/ecommerce',
@@ -68,10 +71,18 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+
+//__________PASSPORT___________________
+
+initPassport()
+passport.use(passport.initialize())
+passport.use(passport.session())
+//_______________________________
+
+
 app.use((req, res, next) => {
     if(req.session && req.session.user){
         res.locals.session = req.session.user
-        console.log('session', res.locals.session)
     }
     next()
   })

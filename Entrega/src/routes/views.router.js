@@ -72,4 +72,7 @@ router.get('/session/register', (req, res) => {
     res.render('register', {})
 })
 
+router.get('/session/forgotPassword', (req, res) => {
+    res.render('forgotPassword', {})
+})
 module.exports = router
