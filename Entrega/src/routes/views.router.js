@@ -65,11 +65,14 @@ router.get("/carts/:cid", async (req, res) => {
 })
 
 router.get('/session/login', (req, res) => {
-    res.render('login', {})
+    const error = req.query.error
+    res.render('login', {error})
 })
 
+
 router.get('/session/register', (req, res) => {
-    res.render('register', {})
+    const error = req.query.error
+    res.render('register', {error})
 })
 
 router.get('/session/forgotPassword', (req, res) => {

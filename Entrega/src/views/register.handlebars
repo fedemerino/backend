@@ -11,6 +11,9 @@
         <input type="password" name="password" placeholder="Password" required />
         <input type="text" name="firstName" placeholder="First name" required />
         <input type="text" name="lastName" placeholder="Last name" required />
+        {{#if error}}
+          <p style="color:red">{{error}}</p>
+        {{/if}}
         <input type="submit" value="Sign up" style="width:120px"/>
       </div>
     </form>

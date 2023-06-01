@@ -17,7 +17,7 @@ const session = require("express-session")
 const fileStore = require("session-file-store")(session)
 const MongoStore = require("connect-mongo")
 const {create} = require('connect-mongo')
-const { initPassport } = require("./config/passport.config")
+const { initPassport, initPassportGithub } = require("./config/passport.config")
 const passport = require("passport")
 //_________________________________________________
 const httpServer = app.listen(PORT, () => {
@@ -75,6 +75,7 @@ app.use(session({
 //__________PASSPORT___________________
 
 initPassport()
+initPassportGithub()
 passport.use(passport.initialize())
 passport.use(passport.session())
 //_______________________________
