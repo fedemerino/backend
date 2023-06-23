@@ -4,6 +4,8 @@ const { userModel } = require('../models/user.model')
 const { createHash, isValidPassword } = require('../utils/bcryptHash')
 const passport = require('passport')
 const { createToken } = require('../utils/jwt')
+const { passportCall } = require('../passport-jwt/passportCall')
+const { authorization } = require('../passport-jwt/authorizationRole')
 const router = Router()
 
 router.get('/private', auth, (req, res) => {
@@ -88,14 +90,14 @@ router.get('/private', auth, (req, res) => {
 
 //__________PASSPORTLOCAL LOGIN&REGISTER___________
 
-  router.post('/register', passport.authenticate('register', {
+/* router.post('/register', passport.authenticate('register', {
     failureRedirect: 'http://localhost:8080/session/register?error=Email%20Already%20In%20Use'
 }), async (req, res) => {
     res.status(200).send({ status: 'success', message: 'User created successfully' })
-}) 
+})
 
 
-  router.post('/login', passport.authenticate('login', {
+router.post('/login', passport.authenticate('login', {
     failureRedirect: 'http://localhost:8080/session/login?error=Invalid%20Credentials'
 }), async (req, res) => {
     if (!req.user) {
@@ -109,12 +111,12 @@ router.get('/private', auth, (req, res) => {
         role: req.user.role
     }
     res.redirect('http://localhost:8080/products')
-})
+}) */
 //__________GITHUB LOGIN___________
 
 router.get('/github', passport.authenticate('github', { scope: ['user:email'] }))
 
-router.get('/githubcallback', passport.authenticate('github',{failureRedirect: 'http://localhost:8080/session/login'}),async(req,res)=>{
+router.get('/githubcallback', passport.authenticate('github', { failureRedirect: 'http://localhost:8080/session/login' }), async (req, res) => {
     req.session.user = req.user
     res.redirect('http://localhost:8080/products')
 })
@@ -173,92 +175,99 @@ router.get('/counter', (req, res) => {
 
 //__________JWT LOGIN&REGISTER___________
 
-// router.post('/register', async(req,res) => {
-//     try {
-//         const {username , password, email, firstName, lastName} = req.body
-//     //VALIDAR QUE NO EXISTA EL MAIL NI EL USERNAME
-//     const userExists = await userModel.findOne({username})
-//     const emailExists = await userModel.findOne({email})
-//     if(userExists){
-//         return res.send({
-//             status: 'error',
-//             message: 'The username has already been taken'
-//         })
-//     }
-//     if(emailExists){
-//         return res.send({
-//             status: 'error',
-//             message: 'The email has already been taken'
-//         })
-//     }
-//     const newUser = {
-//         username,
-//         password: createHash(password),
-//         email,
-//         firstName,
-//         lastName
-//     }
-//     await userModel.create(newUser)
-//     res.status(200).send({
-//         status: 'success',
-//         message: 'User created successfully',
-//     })
+router.post('/register', async (req, res) => {
+    try {
+        const { username, password, email, firstName, lastName } = req.body
+        //VALIDAR QUE NO EXISTA EL MAIL NI EL USERNAME
+        const userExists = await userModel.findOne({ username })
+        const emailExists = await userModel.findOne({ email })
+        if (userExists) {
+            return res.send({
+                status: 'error',
+                message: 'The username has already been taken'
+            })
+        }
+        if (emailExists) {
+            return res.send({
+                status: 'error',
+                message: 'The email has already been taken'
+            })
+        }
+        const newUser = {
+            username,
+            password: createHash(password),
+            email,
+            firstName,
+            lastName
+        }
+        await userModel.create(newUser)
+        res.status(200).send({
+            status: 'success',
+            message: 'User created successfully',
+        })
 
-//     } catch (error) {
-//         console.log(error)
-//     }
-    
-// }) 
+    } catch (error) {
+        console.log(error)
+    }
+
+})
 
 
-//  router.post('/login', async (req,res) => {
-//     const {email, password} = req.body
-//     try {
-//         let role = 'usuario'
-//         if (email === 'adminCoder@coder.com' && password === 'adminCod3r123'){
-//         role = 'admin'
-//         }
-//         const {password, ...userDB} = await userModel.findOne({email}).lean()
-//         console.log(userDB)
-//         if(!userDB){
-//             return res.send({
-//                 status: 'error',
-//                 message: 'Invalid credentials'
-//             })
-//         }
-//         //validate password
-//        /*  if(!isValidPassword(password, userDB)){
-//             return res.status(401).send({
-//                 status: 'error',
-//                 message: 'Invalid credentials'
-//             })
-//         } */
-        
-//        /*  req.session.user = {
-//             firstName: userDB.firstName,
-//             lastName: userDB.lastName,
-//             email: userDB.email,
-//             username: userDB.username,
-//             role: role
-//         } */
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body
+    try {
+        let role = 'user'
+        if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+            role = 'admin'
+        }
+        const userDB = await userModel.findOne({ email }).lean()
+        console.log('userDB', userDB)
+        //console.log('password', password)
+        if (!userDB) {
+            return res.send({
+                status: 'error',
+                message: 'Invalid credentials'
+            })
+        }
+        //validate password
+        if (!isValidPassword(password, userDB)) {
+            return res.status(401).send({
+                status: 'error',
+                message: 'Invalid credentials'
+            })
+        }
 
-//         const accessToken = createToken({
-//             firstName: userDB.firstName,
-//             lastName: userDB.lastName,
-//             email: userDB.email,
-//             username: userDB.username
-//         })
-//         res.send({
-//             status: 'success',
-//             message: 'User logged in successfully',
-//             accessToken
-//         })
+        req.session.user = {
+            firstName: userDB.firstName,
+            lastName: userDB.lastName,
+            email: userDB.email,
+            username: userDB.username,
+            role: role
+        }
 
-//         //res.redirect('http://localhost:8080/products')
-//     } catch (error) {
-//         console.log(error)
-//     }
-    
-// }) 
+        const accessToken = createToken({
+            firstName: userDB.firstName,
+            lastName: userDB.lastName,
+            email: userDB.email,
+            username: userDB.username,
+            role: role
+        })
+        res.cookie('accessToken', accessToken, {
+            maxAge: 60 * 60 * 24,
+            httpOnly: true
+        }).send({
+            status: 'success',
+            message: 'User logged in successfully',
+            // accessToken
+        })
+    } catch (error) {
+        console.log(error)
+    }
+
+})
+
+router.get('/current', passportCall('jwt'), authorization('user') ,(req, res) => {
+    res.send(req.user)
+})
 
 module.exports = router

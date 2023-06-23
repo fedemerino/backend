@@ -3,7 +3,7 @@ const router = Router()
 const ProductManager = require('../daos/mongo/ProductManager')
 const { productModel } = require("../models/product.model")
 const {cartModel} = require('../models/cart.model')
-const product = new ProductManager('../products.json')
+const product = new ProductManager('../Entrega/src/products.json')
 
 
 router.get("/", async (req, res) => {
