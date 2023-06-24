@@ -2,7 +2,8 @@ const express = require("express")
 const app = express()
 const PORT = 8080
 const config = require("./config/config")
-const productsRouter = require("./routes/products.router")
+const ProductsRouter = require("./routes/newProducts.router")
+const productsRouter = new ProductsRouter()
 const cartRouter = require("./routes/cart.router")
 const viewsRouter = require("./routes/views.router")
 const cookiesRouter = require("./routes/cookies.router")
@@ -17,7 +18,8 @@ const session = require("express-session")
 const fileStore = require("session-file-store")(session)
 const MongoStore = require("connect-mongo")
 const {create} = require('connect-mongo')
-const { initPassport, initPassportGithub } = require("./config/passport.config")
+// const { initPassport, initPassportGithub } = require("./config/passport.config")
+const { initPassport } = require("./passport-jwt/passport.config")	
 const passport = require("passport")
 //_________________________________________________
 const httpServer = app.listen(PORT, () => {
@@ -58,7 +60,7 @@ app.get("/vista", (req, res) => {
     saveUninitialized: true
 })) */
 
-app.use(session({
+ app.use(session({
     store: create({
         mongoUrl: 'mongodb+srv://fedemerino:J4TviI4yCVromdLr@backend.lfn4tu6.mongodb.net/ecommerce',
         mongoOptions: {
@@ -75,9 +77,9 @@ app.use(session({
 //__________PASSPORT___________________
 
 initPassport()
-initPassportGithub()
+//initPassportGithub()
 passport.use(passport.initialize())
-passport.use(passport.session())
+//passport.use(passport.session())
 //_______________________________
 
 
@@ -90,7 +92,7 @@ app.use((req, res, next) => {
 
 //_________________________________
 app.use(cookieParser('secretWord'))
-app.use("/api/products", productsRouter)
+app.use("/api/products", productsRouter.getRouter())
 app.use("/api/carts", cartRouter)
 app.use("/", viewsRouter)
 app.use('/cookies', cookiesRouter)

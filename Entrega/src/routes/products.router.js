@@ -2,7 +2,8 @@ const { Router } = require('express')
 const router = Router()
 const { productModel } = require('../models/product.model')
 const { ObjectId } = require('mongodb')
-router.get('/', async (req, res) => {
+const passport = require('passport')
+router.get('/', passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
         const pageNumber = parseInt(req.query.page) || 1
         const limitNumber = parseInt(req.query.limit) || 10
