@@ -1,14 +1,11 @@
 const express = require("express")
 const app = express()
-const PORT = 8080
 const config = require("./config/config")
-const ProductsRouter = require("./routes/newProducts.router")
-const productsRouter = new ProductsRouter()
+const productsRouter = require("./routes/newProducts.router")
 const cartRouter = require("./routes/cart.router")
 const viewsRouter = require("./routes/views.router")
 const cookiesRouter = require("./routes/cookies.router")
-const sessionRouter = require("./routes/session.router")
-const { uploader } = require("./multer")
+const sessionsRouter = require("./routes/newSessions.router")
 const {Server} = require('socket.io')
 const handlebars = require("express-handlebars")
 const cookieParser = require("cookie-parser")
@@ -21,6 +18,8 @@ const {create} = require('connect-mongo')
 // const { initPassport, initPassportGithub } = require("./config/passport.config")
 const { initPassport } = require("./passport-jwt/passport.config")	
 const passport = require("passport")
+require("dotenv").config()
+const PORT = process.env.PORT
 //_________________________________________________
 const httpServer = app.listen(PORT, () => {
     console.log(`listing on port ${PORT}`)
@@ -53,16 +52,10 @@ app.get("/vista", (req, res) => {
     })
 })
 //_______________________________
-//GET http://localhost:8080/
-/* app.use(session({
-    secret: 'secretWord',
-    resave: true,
-    saveUninitialized: true
-})) */
 
  app.use(session({
     store: create({
-        mongoUrl: 'mongodb+srv://fedemerino:J4TviI4yCVromdLr@backend.lfn4tu6.mongodb.net/ecommerce',
+        mongoUrl: process.env.MONGO_URL,
         mongoOptions: {
             useNewUrlParser: true,
             useUnifiedTopology: true
@@ -82,7 +75,6 @@ passport.use(passport.initialize())
 //passport.use(passport.session())
 //_______________________________
 
-
 app.use((req, res, next) => {
     if(req.session && req.session.user){
         res.locals.session = req.session.user
@@ -92,9 +84,9 @@ app.use((req, res, next) => {
 
 //_________________________________
 app.use(cookieParser('secretWord'))
+app.use("/", viewsRouter)
 app.use("/api/products", productsRouter.getRouter())
 app.use("/api/carts", cartRouter)
-app.use("/", viewsRouter)
+app.use('/session', sessionsRouter.getRouter())
 app.use('/cookies', cookiesRouter)
-app.use('/session', sessionRouter)
 socketProduct(io)

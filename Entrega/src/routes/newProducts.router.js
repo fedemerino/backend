@@ -1,8 +1,7 @@
-const { Router } = require('express');
 const RouterClass = require('./routerClass')
-class productsRouter extends RouterClass {
+class ProductsRouter extends RouterClass {
     init() {
-        this.get('/', ['PUBLICC'], async (req, res) => {
+        this.get('/', ['PUBLIC'], async (req, res) => {
             try {
                 res.sendSuccess('ok')
             } catch (error) {
@@ -12,4 +11,4 @@ class productsRouter extends RouterClass {
     }
 }
 
-module.exports = productsRouter 
+module.exports = new ProductsRouter()

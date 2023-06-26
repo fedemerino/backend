@@ -1,5 +1,5 @@
 function auth(req,res,next){
-    if(req.session?.user?.username  == 'fede' || req.session?.user?.role == 'admin'){
+    if(req.session?.user?.username  == 'fede' || req.session?.user?.role == 'user'){
         next()
     }
     else{

@@ -10,7 +10,9 @@ class RouterClass {
     getRouter() {
         return this.router
     }
-    init() { }
+    init() { 
+        
+    }
 
     applyCallbacks(callbacks) {
         return callbacks.map((callback) => async (...params) => {
@@ -25,13 +27,14 @@ class RouterClass {
 
     generateCustomResponse = (req, res, next) => {
         res.sendSucess = (payload) => res.send({ status: 'success', payload })
-        res.sendServerError = (error) => res.status(500).send({ status: 'error', error: error })
-        res.sendUserError = (error) => res.status(400).send({ status: 'error', error: error })
+        res.sendServerError = (error) => res.status(500).send({ status: 'error', error })
+        res.sendUserError = (error) => res.status(400).send({ status: 'error', error })
         next()
     }
 
     handlePolicies = (policies) => async (req, res, next) => {
         try {
+            console.log(req.headers)
             if(policies[0] === 'PUBLIC') return next()
             const authHeader = req.headers.authorization
             if (!authHeader) return res.send('No token provided')
@@ -50,13 +53,13 @@ class RouterClass {
         this.router.get(path, this.handlePolicies(policies), this.generateCustomResponse, this.applyCallbacks(callbacks))
     }
     post(path, policies, ...callbacks) {
-        this.router.get(path, this.handlePolicies(policies), this.generateCustomResponse, this.applyCallbacks(callbacks))
+        this.router.post(path, this.handlePolicies(policies), this.generateCustomResponse, this.applyCallbacks(callbacks))
     }
     put(path, policies, ...callbacks) {
-        this.router.get(path, this.handlePolicies(policies), this.generateCustomResponse, this.applyCallbacks(callbacks))
+        this.router.put(path, this.handlePolicies(policies), this.generateCustomResponse, this.applyCallbacks(callbacks))
     }
     delete(path, policies, ...callbacks) {
-        this.router.get(path, this.handlePolicies(policies), this.generateCustomResponse, this.applyCallbacks(callbacks))
+        this.router.delete(path, this.handlePolicies(policies), this.generateCustomResponse, this.applyCallbacks(callbacks))
     }
 }
 
