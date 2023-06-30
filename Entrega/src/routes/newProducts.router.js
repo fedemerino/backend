@@ -1,13 +1,12 @@
-const RouterClass = require('./routerClass')
+const RouterClass = require('./customRouter')
+const { getProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../controllers/products.controller')
 class ProductsRouter extends RouterClass {
     init() {
-        this.get('/', ['PUBLIC'], async (req, res) => {
-            try {
-                res.sendSuccess('ok')
-            } catch (error) {
-                res.sendServerError(error)
-            }
-        })
+        this.get('/', getProducts)
+        this.get('/:pid',getProductById)
+        this.post('/', createProduct)
+        this.put('/:pid', updateProduct)
+        this.delete('/:pid', deleteProduct)
     }
 }
 

@@ -1,5 +1,5 @@
 const passport = require("passport")
-const { userModel } = require("../models/user.model")
+const usersService = require("../services/services").usersService
 const { createHash, isValidPassword } = require("../utils/bcryptHash")
 const { generateToken } = require("../utils/jwt")
 
@@ -11,8 +11,7 @@ class SessionController  {
       if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
         role = "admin"
       }
-      const userDB = await userModel.findOne({ email }).lean()
-      console.log("userDB", userDB)
+      const userDB = await usersService.getLean({ email })
       if (!userDB) {
         return res.send({
           status: "error",
@@ -44,10 +43,12 @@ class SessionController  {
           maxAge: 60 * 60 * 24,
           httpOnly: true,
         })
-        .send({
-          status: "success",
-          message: "User logged in successfully",
-        })
+         .send({
+           status: "success",
+           message: "User logged in successfully",
+           role: role,
+           accessToken
+         })
     } catch (error) {
       console.log(error)
     }
@@ -57,8 +58,8 @@ class SessionController  {
     try {
         const { username, password, email, firstName, lastName } = req.body
         //VALIDAR QUE NO EXISTA EL MAIL NI EL USERNAME
-        const userExists = await userModel.findOne({ username })
-        const emailExists = await userModel.findOne({ email })
+        const userExists = await usersService.get({ username })
+        const emailExists = await usersService.get({ email })
         if (userExists) {
             return res.send({
                 status: 'error',
@@ -78,7 +79,7 @@ class SessionController  {
             firstName,
             lastName
         }
-        await userModel.create(newUser)
+        await usersService.create(newUser)
         res.status(200).send({
             status: 'success',
             message: 'User created successfully',
@@ -105,7 +106,7 @@ class SessionController  {
 
     forgotPassword = async (req, res) => {
         const { email, password } = req.body
-        const userDB = await userModel.findOne({ email })
+        const userDB = await usersService.get({ email })
         if (!userDB) {
             return res.status(401).send({
                 status: 'error',
@@ -113,7 +114,7 @@ class SessionController  {
             })
         }
         userDB.password = createHash(password)
-        await userDB.save()
+        await usersService.save(userDB)
         res.status(200).json({
             status: 'success',
             message: 'Password changed successfully'

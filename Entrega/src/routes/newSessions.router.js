@@ -1,4 +1,4 @@
-const RouterClass = require("./routerClass")
+const RouterClass = require("./customRouter")
 const auth = require("../middlewares/auth.middleware")
 const {
   login,
@@ -12,13 +12,13 @@ const {
 
 class SessionsRouter extends RouterClass {
   init() {
-    this.post("/login",['PUBLIC'], login)
-    this.post("/register",['PUBLIC'], register)
-    this.get("/logout",['PUBLIC'], logout)
+    this.post("/login", login)
+    this.post("/register", register)
+    this.get("/logout", logout)
     this.post("/forgotPassword", forgotPassword)
-    this.get("/private",['PUBLIC'], auth, privateSection)
-    this.get("/github",['PUBLIC'], githubLogin)
-    this.get("/githubcallback",['PUBLIC'], githubCallback)
+    this.get("/private", auth, privateSection)
+    this.get("/github", githubLogin)
+    this.get("/githubcallback", githubCallback)
   }
 }
 
