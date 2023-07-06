@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken')
-require ('dotenv').config()
+require('dotenv').config()
 
 class RouterClass {
     constructor() {
@@ -10,7 +10,7 @@ class RouterClass {
     getRouter() {
         return this.router
     }
-    init() {}
+    init() { }
 
     applyCallbacks(callback) {
         return callback.map((callback) => async (...params) => {
@@ -32,13 +32,15 @@ class RouterClass {
 
     handlePolicies = (policies) => async (req, res, next) => {
         try {
-            if(policies[0] === 'PUBLIC') return next()
+            console.log(policies)
+            console.log(req.headers)
+            if (policies === 'PUBLIC') return next()
             const authHeader = req.headers.authorization
             console.log('authHeader', authHeader)
             if (!authHeader) return res.send('No token provided')
             const token = authHeader.split(' ')[1]
             const user = await jwt.verify(token, process.env.JWT_PRIVATE_KEY)
-            if(!policies.includes(user.role.toUpperCase())) return res.send('Unauthorized')
+            if (!policies.includes(user.role.toUpperCase())) return res.send('Unauthorized')
             req.user = user
             console.log('user', user)
             next()

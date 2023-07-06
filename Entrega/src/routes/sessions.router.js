@@ -1,5 +1,7 @@
 const RouterClass = require("./customRouter")
-const auth = require("../middlewares/auth.middleware")
+const auth = require("../passport-jwt/passportCall")
+const passportCall = require("../passport-jwt/passportCall")
+const authorization = require('../passport-jwt/authorizationRole')
 const {
   login,
   register,
@@ -8,6 +10,7 @@ const {
   privateSection,
   githubLogin,
   githubCallback,
+  current
 } = require("../controllers/sessions.controller")
 
 class SessionsRouter extends RouterClass {
@@ -19,6 +22,7 @@ class SessionsRouter extends RouterClass {
     this.get("/private", auth, privateSection)
     this.get("/github", githubLogin)
     this.get("/githubcallback", githubCallback)
+    this.get('/current', passportCall('jwt'), authorization('user'), current)
   }
 }
 

@@ -18,6 +18,7 @@ const initPassport = () => {
         secretOrKey: process.env.JWT_PRIVATE_KEY
     }, async (jwt_payload, done) => {
         try {
+            console.log('jwt-payload', jwt_payload)
             return done(null, jwt_payload)
         } catch (error) {
             console.log(error)

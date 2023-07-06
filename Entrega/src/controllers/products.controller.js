@@ -65,7 +65,7 @@ class ProductsController {
     createProduct = async (req, res) => {
         try {
             const { title, description, code, price, status, stock, category, thumbnail } = req.body
-            let newProduct = {
+            let product = {
                 _id: new ObjectId(),
                 title,
                 description,
@@ -76,7 +76,7 @@ class ProductsController {
                 category,
                 thumbnail
             }
-            await productsService.create(newProduct)
+            await productsService.create(product)
             res.status(200).send({
                 status: 'success',
                 'newProduct': newProduct
@@ -92,6 +92,7 @@ class ProductsController {
             const { title, description, code, price, status, stock, category, thumbnail } = req.body
             const { pid } = req.params
             const product = {
+                _id: pid,
                 title: title,
                 description: description,
                 code: code,
@@ -102,7 +103,6 @@ class ProductsController {
                 thumbnail: thumbnail
             }
             let result = await productsService.update(pid, product)
-
             res.status(200).send({
                 status: 'success',
                 payload: result

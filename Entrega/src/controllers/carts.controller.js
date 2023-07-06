@@ -1,9 +1,12 @@
+const { ticketModel } = require('../models/ticket.model')
+
 const cartsService = require('../services/services').cartsService
 const productsService = require('../services/services').productsService
 
 class CartsController {
     getCarts = async (req, res) => {
         try {
+            console.log(req.user)
             const carts = await cartsService.get()
             res.status(200).send({ status: "success", carts })
         } catch (error) {
@@ -114,6 +117,51 @@ class CartsController {
             console.log(error)
         }
     }
+
+    createTicket = async (req, res) => {
+        const { cid } = req.params
+        try {
+            console.log(req.user)
+            const cart = await cartsService.getByIdAndPopulate(cid)
+            if (!cart) {
+                return res.status(400).send({ status: "error", error: "cart not found" })
+            }
+            const notAvailableProducts = []
+
+            for (const item of cart.products) {
+                const product = item.product
+                const quantity = item.quantity
+                const stock = item.product.stock
+                if (quantity > stock) {
+                    notAvailableProducts.push(item)
+                } else {
+                    await productsService.update(product, { stock: stock - quantity })
+                }
+            }
+
+            const products = cart.products.filter(product => !notAvailableProducts.includes(product))
+
+            const ticket = await ticketModel.create({
+                products: cart.products,
+                ammount: products.reduce((acc, product) => acc + product.quantity * product.product.price, 0),
+                purchaser: req.user.email
+            })
+
+            if (notAvailableProducts.length > 0) {
+                cart.products = notAvailableProducts
+                await cartsService.getByIdAndUpdate(cid, cart)
+                res.status(200).send({ status: "success", ticket, "not available products": notAvailableProducts })
+            } else {
+                cart.products = []
+                await cartsService.getByIdAndUpdate(cid, cart)
+                res.status(200).send({ status: "success", ticket })
+            }
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+
 }
 
 module.exports = new CartsController()
