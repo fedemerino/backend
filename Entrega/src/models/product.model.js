@@ -16,6 +16,8 @@ const productSchema = new Schema({
   stock: { type: Number, required: true },
   category: { type: String, required: true },
   thumbnail: { type: Array, required: true },
+  featured: { type: Boolean, default: false },
+  created_at: { type: Date, default: Date.now },
 })
 
 productSchema.plugin(mongoosePaginate)

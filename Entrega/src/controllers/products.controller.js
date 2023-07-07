@@ -55,7 +55,7 @@ class ProductsController {
             if (!productByID) {
                 return res.status(400).send({ status: 'error', error: 'product not found' })
             }
-            res.status(200).send({ productByID })
+            res.status(200).send({status:"success", payload:productByID })
         }
         catch (error) {
             console.log(error)
@@ -64,7 +64,7 @@ class ProductsController {
 
     createProduct = async (req, res) => {
         try {
-            const { title, description, code, price, status, stock, category, thumbnail } = req.body
+            const { title, description, code, price, status, stock, category, thumbnail, featured } = req.body
             let product = {
                 _id: new ObjectId(),
                 title,
@@ -74,12 +74,13 @@ class ProductsController {
                 status,
                 stock,
                 category,
-                thumbnail
+                thumbnail,
+                featured
             }
             await productsService.create(product)
             res.status(200).send({
                 status: 'success',
-                'newProduct': newProduct
+                payload: product
             })
         }
         catch (error) {
@@ -89,7 +90,7 @@ class ProductsController {
 
     updateProduct = async (req, res) => {
         try {
-            const { title, description, code, price, status, stock, category, thumbnail } = req.body
+            const { title, description, code, price, status, stock, category, thumbnail, featured } = req.body
             const { pid } = req.params
             const product = {
                 _id: pid,
@@ -100,7 +101,8 @@ class ProductsController {
                 status: status,
                 stock: stock,
                 category: category,
-                thumbnail: thumbnail
+                thumbnail: thumbnail,
+                featured: featured
             }
             let result = await productsService.update(pid, product)
             res.status(200).send({
