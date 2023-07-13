@@ -1,8 +1,9 @@
 const { ObjectId } = require('mongodb')
 const productsService = require('../services/services').productsService
-const { createProductErrorInfo } = require('../utils/CustomError/info')
-const { CustomError } = require('../utils/CustomError/CustomError')
-const { Error } = require('../utils/CustomError/Errors')
+const CustomError = require("../utils/CustomError/CustomError")
+const { createProductErrorInfo } = require("../utils/CustomError/info")
+const {Errors} = require("../utils/CustomError/Errors")
+
 class ProductsController {
     getProducts = async (req, res) => {
         try {
@@ -68,11 +69,11 @@ class ProductsController {
         try {
             const { title, description, code, price, status, stock, category, thumbnail, featured } = req.body
             if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail || !featured) {
-                return CustomError.createError({
-                    name: 'MissingFieldsError',
+                CustomError.createError({
+                    name: 'Missing Fields Error',
                     cause: createProductErrorInfo(req.body),
                     message: 'One or more of the following fields are missing:',
-                    code: Error.MISSING_FIELDS
+                    code: Errors.MISSING_FIELDS
                 })
             }
             let product = {

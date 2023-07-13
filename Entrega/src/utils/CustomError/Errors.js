@@ -1,4 +1,4 @@
-const Error = {
+const Errors = {
     ROUTING_ERROR: 1,
     AUTHENTICATION_ERROR: 2,
     AUTHORIZATION_ERROR: 3,
@@ -13,4 +13,4 @@ const Error = {
     MISSING_FIELDS: 12
 }
 
-module.exports = { Error }
+module.exports = { Errors }

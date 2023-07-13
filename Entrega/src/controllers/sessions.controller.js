@@ -3,9 +3,9 @@ const usersService = require("../services/services").usersService
 const { createHash, isValidPassword } = require("../utils/bcryptHash")
 const { generateToken } = require("../utils/jwt")
 const { CurrentSessionDto } = require("../dto/currentSession.dto")
-const CustomError = require("../utils/CustomError/CustomError")
+const { CustomError } = require("../utils/CustomError/CustomError")
 const { generateUserErrorInfo } = require("../utils/CustomError/info")
-const Error = require("../utils/CustomError/Errors")
+const {Errors} = require("../utils/CustomError/Errors")
 class SessionController {
   login = async (req, res) => {
     const { email, password } = req.body
@@ -72,7 +72,7 @@ class SessionController {
             lastName
           }),
           message: 'One or more fields are invalid',
-          code: Error.INVALID_TYPE_ERROR
+          code: Errors.INVALID_TYPE_ERROR
         })
       }
       const userExists = await usersService.get({ username })
@@ -103,7 +103,7 @@ class SessionController {
       })
 
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 

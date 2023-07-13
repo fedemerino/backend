@@ -1,7 +1,7 @@
 const { Error } = require('../utils/CustomError/Errors')
 
 exports.errorHandler = (error, req, res, next) => {
-    console.log(error)
+    console.log('ERROR HANDLER')
     switch (error.code) {
         case Error.ROUTING_ERROR:
             res.status(400).send({
