@@ -1,6 +1,8 @@
 const { ObjectId } = require('mongodb')
 const productsService = require('../services/services').productsService
-
+const { createProductErrorInfo } = require('../utils/CustomError/info')
+const { CustomError } = require('../utils/CustomError/CustomError')
+const { Error } = require('../utils/CustomError/Errors')
 class ProductsController {
     getProducts = async (req, res) => {
         try {
@@ -55,16 +57,24 @@ class ProductsController {
             if (!productByID) {
                 return res.status(400).send({ status: 'error', error: 'product not found' })
             }
-            res.status(200).send({status:"success", payload:productByID })
+            res.status(200).send({ status: "success", payload: productByID })
         }
         catch (error) {
             console.log(error)
         }
     }
 
-    createProduct = async (req, res) => {
+    createProduct = async (req, res, next) => {
         try {
             const { title, description, code, price, status, stock, category, thumbnail, featured } = req.body
+            if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail || !featured) {
+                return CustomError.createError({
+                    name: 'MissingFieldsError',
+                    cause: createProductErrorInfo(req.body),
+                    message: 'One or more of the following fields are missing:',
+                    code: Error.MISSING_FIELDS
+                })
+            }
             let product = {
                 _id: new ObjectId(),
                 title,
@@ -84,7 +94,7 @@ class ProductsController {
             })
         }
         catch (error) {
-            console.log(error)
+            next(error)
         }
     }
 

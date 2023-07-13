@@ -7,9 +7,9 @@ const generateProducts = () => {
         code: uuid(),
         price: faker.commerce.price(),
         status: faker.datatype.boolean(),
-        stock: faker.datatype.number(),
+        stock: faker.number.int(),
         category: faker.commerce.department(),
-        thumbnail: faker.image.imageUrl(),
+        thumbnail: faker.image.url(),
         featured: faker.datatype.boolean(),
         created_at: faker.date.recent(),
     }

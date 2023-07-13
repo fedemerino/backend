@@ -10,6 +10,7 @@ const Error = {
     CONFLICT_ERROR: 9,
     UNAUTHORIZED_ERROR: 10,
     INVALID_TYPE_ERROR: 11,
+    MISSING_FIELDS: 12
 }
 
 module.exports = { Error }

@@ -70,6 +70,11 @@ exports.errorHandler = (error, req, res, next) => {
                 message: error.message
             })
             break
+        case Error.MISSING_FIELDS:
+            res.status(400).send({
+                status: 'error',
+                message: error.message
+            })
         default:
             res.status(500).send({
                 status: 'error',
