@@ -15,6 +15,7 @@ export default function Page({response}) {
         setProducts(sortedProducts)
     }
 
+
     return (
         <main className="flex justify-center mainAll gap-5">
             <section>
