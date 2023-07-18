@@ -18,6 +18,7 @@ class CartsController {
             const { cid } = req.params
             const cart = await cartsService.getByIdAndPopulate(cid)
             if (!cart) {
+                req.logger.error(`error cart not found @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
                 return res.status(400).send({ status: "error", error: "cart not found" })
             }
             res.status(200).send({
@@ -50,10 +51,12 @@ class CartsController {
             const { quantity } = req.body
             const cart = await cartsService.getById(cid)
             if (!cart) {
+                req.logger.error(`error cart not found @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
                 return res.status(400).send({ status: "error", error: "cart not found" })
             }
             const findProduct = await productsService.getById(pid)
             if (!findProduct) {
+                req.logger.error(`error product not found @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
                 return res.status(400).send({ status: "error", error: "product not found" })
             }
             const productInCart = cart.products.find(product => product.product == pid)

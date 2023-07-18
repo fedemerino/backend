@@ -41,6 +41,7 @@ class SessionController {
         username: userDB.username,
         role: role,
       })
+      req.logger.info(`${userDB.username} logged in @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
       res
         .cookie("accessToken", accessToken, {
           maxAge: 60 * 60 * 24,
@@ -53,6 +54,7 @@ class SessionController {
           accessToken
         })
     } catch (error) {
+      console.log(error)
       req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
     }
   }
@@ -97,11 +99,12 @@ class SessionController {
         lastName
       }
       await usersService.create(user)
+      
       res.status(200).send({
         status: 'success',
         message: 'User created successfully',
       })
-
+      req.logger.info(`${user.username} registered @  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
     } catch (error) {
       next(error)
     }
@@ -148,6 +151,8 @@ class SessionController {
     try {
       await passport.authenticate('github', { failureRedirect: 'http://localhost:8080/session/login' })(req, res)
       req.session.user = req.user
+      req.logger.info(`${req.user.username} logged in @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
+
       res.redirect('http://localhost:8080/products')
     } catch (error) {
       req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)

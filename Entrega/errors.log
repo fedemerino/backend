@@ -1,3 +1,9 @@
 info: GET en /api/products -  18/7/2023 01:56:10 ::1
 info: GET en /favicon.ico -  18/7/2023 01:56:10 ::1
 info: GET en /api/products -  18/7/2023 01:56:20 ::1
+info: listing on port 4000
+info: listing on port 8080
+info: GET en /session/logout -  18/7/2023 02:28:09 ::1
+info: GET en /session/login -  18/7/2023 02:28:09 ::1
+info: POST en /session/login -  18/7/2023 02:28:09 ::1
+info: fedemerino00 logged in @ 18/7/2023 02:28:10

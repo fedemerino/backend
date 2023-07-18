@@ -56,6 +56,7 @@ class ProductsController {
             const { pid } = req.params
             const productByID = await productsService.getById(pid)
             if (!productByID) {
+                req.logger.error(`error product not found @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
                 return res.status(400).send({ status: 'error', error: 'product not found' })
             }
             res.status(200).send({ status: "success", payload: productByID })
