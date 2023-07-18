@@ -53,7 +53,7 @@ class SessionController {
           accessToken
         })
     } catch (error) {
-      console.log(error)
+      req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
     }
   }
 
@@ -150,7 +150,7 @@ class SessionController {
       req.session.user = req.user
       res.redirect('http://localhost:8080/products')
     } catch (error) {
-      console.log(error)
+      req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
       res.status(500).send('Internal Server Error')
     }
   }
@@ -160,7 +160,7 @@ class SessionController {
       let user = new CurrentSessionDto(req.user.user)
       res.send(user)
     } catch (error) {
-      console.log(error)
+      req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
     }
   }
 }

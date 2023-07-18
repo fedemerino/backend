@@ -2,7 +2,7 @@ const { ObjectId } = require('mongodb')
 const productsService = require('../services/services').productsService
 const CustomError = require("../utils/CustomError/CustomError")
 const { createProductErrorInfo } = require("../utils/CustomError/info")
-const {Errors} = require("../utils/CustomError/Errors")
+const { Errors } = require("../utils/CustomError/Errors")
 
 class ProductsController {
     getProducts = async (req, res) => {
@@ -47,7 +47,7 @@ class ProductsController {
             })
         }
         catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
 
@@ -61,7 +61,7 @@ class ProductsController {
             res.status(200).send({ status: "success", payload: productByID })
         }
         catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
 
@@ -122,7 +122,7 @@ class ProductsController {
             })
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
 
@@ -136,7 +136,7 @@ class ProductsController {
             })
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
 

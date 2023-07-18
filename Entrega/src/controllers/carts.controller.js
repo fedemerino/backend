@@ -10,7 +10,7 @@ class CartsController {
             const carts = await cartsService.get()
             res.status(200).send({ status: "success", carts })
         } catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
     getCartById = async (req, res) => {
@@ -25,7 +25,7 @@ class CartsController {
                 products: cart.products,
             })
         } catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
 
@@ -40,7 +40,7 @@ class CartsController {
                 cart: newCart
             })
         } catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
 
@@ -78,7 +78,7 @@ class CartsController {
             res.status(200).send({ status: "success", product })
 
         } catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
 
@@ -98,7 +98,7 @@ class CartsController {
             res.status(200).send({ status: "success", cart })
         }
         catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
 
@@ -114,7 +114,7 @@ class CartsController {
             res.status(200).send({ status: "success", cart })
         }
         catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
 
@@ -158,7 +158,7 @@ class CartsController {
             }
         }
         catch (error) {
-            console.log(error)
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
         }
     }
 
