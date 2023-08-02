@@ -9,6 +9,7 @@ class TestRouter extends RouterClass {
             req.logger.error('Test Logger Error')
             req.logger.debug('Test Logger Debug')
             req.logger.fatal('Test Logger Fatal')
+            req.logger.http('Test Logger Http')
             res.send('Test Loggers')
         })
         this.get('/test', (req, res) => {

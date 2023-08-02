@@ -11,7 +11,7 @@ export default function MainProduct({ isHome, product, index, width=500, height=
                     <h3 className={`bg-black ${nameStyle}`}>{product.title}</h3>
                     <p className={`bg-black ${priceStyle}`}>{product.price} ARS</p>
                 </div>
-                <Image priority src={(product.code == 'NIKEAF107LV8EMB' && isHome) ? product.thumbnail[2]:product.thumbnail[0]} width={width} height={height}/>
+                <Image priority src={(product.code == 'NIKEAF107LV8EMB' && isHome) ? product.thumbnail[2]:product.thumbnail[0]} width={width} height={height} alt={product.title}/>
             </Link>
         </div>
     )

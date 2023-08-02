@@ -8,14 +8,16 @@ const customLevelOptions = {
         error: 1,
         warning: 2,
         info: 3,
-        debug: 4
+        debug: 4,
+        http: 5
     },
     colors: {
         fatal: 'red',
         error: 'red',
         warning: 'yellow',
         info: 'green',
-        debug: 'blue'
+        debug: 'blue',
+        http: 'blue'
     }
 }
 let logger

@@ -1,14 +1,18 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { PropagateLoader } from 'react-spinners'
-
+import { toast } from 'react-toastify'
+import { useSelector, useDispatch } from 'react-redux'
+import { setAddProductFlag } from '@/redux/userSlice'
 export default function ProductPage({ params }) {
     const sizes = ['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12', '12.5', '13']
     const { id } = params
     const [product, setProduct] = useState()
     const [initialImg, setInitialImg] = useState()
     const [selectedSize, setSelectedSize] = useState()
-
+    const [quantity, setQuantity] = useState(1)
+    const user = useSelector(state => state.user.user)
+    const cart = user ? user.cart : null
     const getProducts = async () => {
         const response = await fetch(`http://localhost:8080/api/products/${id}`)
         const data = await response.json()
@@ -28,6 +32,41 @@ export default function ProductPage({ params }) {
             setSelectedSize(size)
         }
     }
+
+    const addProduct = async () => {
+        try {
+            await fetch(`http://localhost:8080/api/carts/${cart}/product/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    quantity: quantity
+                })
+            })
+        } catch (error) {
+            toast.error('Error adding product to cart')
+        }
+    }
+
+    const handleAddToCart = () => {
+        if (selectedSize) {
+            addProduct()
+            toast.success('Product added to cart')
+            return
+        }
+        toast.error('Please select a size first')
+    }
+
+    const handleAdd = () => {
+        if (quantity >= 10) return
+        setQuantity(quantity + 1)
+    }
+
+    const handleSubtract = () => {
+        if (quantity <= 1) return
+        setQuantity(quantity - 1)
+    }
     return product ? <div className='flex justify-center items-center productSingleCardContainer'>
         <div className='flex'>
             <div className='imgColumn'>
@@ -36,8 +75,8 @@ export default function ProductPage({ params }) {
                 </div>
                 <div className='flex gap-2'>
                     {product.thumbnail.map((img, index) =>
-                        <div className='productImgSelectorContainer cursor-pointer flex justify-center items-center' onClick={() => handleImage(index)}>
-                            <img src={img} alt="" className='productImgSelector' key={index} />
+                        <div key={'image' + index} className='productImgSelectorContainer cursor-pointer flex justify-center items-center' onClick={() => handleImage(index)}>
+                            <img src={img} alt="" className='productImgSelector' />
                         </div>
                     )}
                 </div>
@@ -59,7 +98,14 @@ export default function ProductPage({ params }) {
                         </button>
                     )}
                 </div>
-                <button className='addToCartBtn mt-5'>
+                <div className='flex justify-center'>
+                    <div className='flex quantityButtons justify-center items-center font-semibold'>
+                        <button className='quantityButton rounded-tl-2xl rounded-bl-2xl' onClick={() => handleSubtract(quantity)}>-</button>
+                        <p className='quantity'>{quantity}</p>
+                        <button className='quantityButton rounded-tr-2xl rounded-br-2xl' onClick={() => handleAdd(quantity)}>+</button>
+                    </div>
+                </div>
+                <button className='addToCartBtn mt-5' onClick={handleAddToCart}>
                     Add to Cart
                 </button>
             </div>

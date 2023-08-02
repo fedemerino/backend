@@ -30,9 +30,30 @@ class CartsController {
         }
     }
 
+    getCartByUsername = async (req, res) => {
+        try {
+            const { username } = req.params
+            console.log(username)
+            const cart = await cartsService.getByUsername(username)
+            if (!cart) {
+                req.logger.error(`error cart not found @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
+                return res.status(400).send({ status: "error", error: "cart not found" })
+            }
+            res.status(200).send({
+                status: "success",
+                payload: cart,
+            })
+        } catch (error) {
+            req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
+        }
+    }
+    
     createCart = async (req, res) => {
         try {
+            console.log('req.user', req.user)
+            console.log('req.body', req.body)
             const newCart = {
+                username: req.body.username,
                 products: []
             }
             await cartsService.create(newCart)
@@ -92,11 +113,12 @@ class CartsController {
             if (!cart) {
                 return res.status(400).send({ status: "error", error: "cart not found" })
             }
-            const productInCart = cart.products.find(product => product.product == pid)
+            console.log(cart)
+            const productInCart = cart.products.find(product => product._id == pid)
             if (!productInCart) {
                 return res.status(400).send({ status: "error", error: "product not found" })
             }
-            cart.products = cart.products.filter(product => product.product != pid)
+            cart.products = cart.products.filter(product => product._id != pid)
             await cartsService.getByIdAndUpdate(cid, cart)
             res.status(200).send({ status: "success", cart })
         }

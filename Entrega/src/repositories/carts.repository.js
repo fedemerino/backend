@@ -16,6 +16,13 @@ class CartsRepository {
             console.log(error)
         }
     }
+    getByUsername = async (username) => {
+        try {
+            return await this.dao.getByUsername(username)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     getByIdAndPopulate = async (cid) => {
         try {
             return await this.dao.getByIdAndPopulate(cid)

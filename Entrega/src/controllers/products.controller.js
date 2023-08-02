@@ -33,7 +33,7 @@ class ProductsController {
             if (nextPage !== null) {
                 nextLink = `http://localhost:8080/api/products?page=${nextPage}&limit=${limitNumber}`
             }
-            res.send({
+            res.status(200).send({
                 status: 'success',
                 payload: docs,
                 totalPages,
@@ -69,7 +69,7 @@ class ProductsController {
     createProduct = async (req, res, next) => {
         try {
             const { title, description, code, price, status, stock, category, thumbnail, featured } = req.body
-            if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail || !featured) {
+            if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail) {
                 CustomError.createError({
                     name: 'Missing Fields Error',
                     cause: createProductErrorInfo(req.body),

@@ -5,20 +5,24 @@ import { decode } from "jsonwebtoken";
 import { useState, useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 import { useRouter } from 'next/navigation';
+import {useDispatch} from 'react-redux'
+import { setUser, clearUser } from '@/redux/userSlice';
 export default function Login() {
-
+    
     const [cookies, setCookie, removeCookie] = useCookies(['token'])
     const [token, setToken] = useState()
     const [isLoading, setIsLoading] = useState(true)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const router = useRouter()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const accessToken = cookies.accessToken
         if (accessToken) {
-            const decoded = decode(accessToken)
-            setToken(decoded.user)
+            setToken(accessToken)
             setIsLoggedIn(true)
+            const decoded = decode(accessToken)
+            dispatch(setUser(decoded.user))
         }
         setIsLoading(false)
     }, [])
@@ -42,6 +46,8 @@ export default function Login() {
         setToken(json.accessToken)
         setIsLoggedIn(true)
         setIsLoading(true)
+        const decoded = decode(json.accessToken)
+        dispatch(setUser(decoded.user))
         router.push('/')
     }
 
@@ -53,13 +59,12 @@ export default function Login() {
             }
         })
         const json = await response
-        console.log(json)
         localStorage.removeItem('token')
         removeCookie('accessToken')
         setToken(null)
         setIsLoggedIn(false)
+        dispatch(clearUser())
     }
-
 
     return (
         <div className="flex justify-center items-center flex-col mt-10">
@@ -72,7 +77,7 @@ export default function Login() {
                 <>
                     {isLoggedIn ?
                         <>
-                            <h1 className="text-xl text-white mb-3">Welcome to Sneakers {token.username} !</h1>
+                            <h1 className="text-xl text-white mb-3">Welcome to Sneakers {decode(token).user.username} !</h1>
                             <button onClick={handleLogout} className="text-md defaultButton formInput">Logout</button>
                         </>
                         : <>

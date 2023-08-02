@@ -21,6 +21,14 @@ class CartsDaoMongo {
         }
     }
 
+    getByUsername = async (username) => {
+        try {
+            return await this.cartModel.findOne({ username }).select('_id')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     getByIdAndPopulate = async (cid) => {
         try {
             return await this.cartModel.findById(cid).populate('products.product')
