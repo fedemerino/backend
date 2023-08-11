@@ -26,7 +26,7 @@ export default function Login() {
         }
         setIsLoading(false)
     }, [])
-
+    
 
     const handleSubmit = async () => {
         event.preventDefault()
@@ -58,7 +58,7 @@ export default function Login() {
                 'Content-Type': 'application/json'
             }
         })
-        const json = await response
+        await response
         localStorage.removeItem('token')
         removeCookie('accessToken')
         setToken(null)

@@ -2,8 +2,7 @@
 import { useState, useEffect } from 'react'
 import { PropagateLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
-import { useSelector, useDispatch } from 'react-redux'
-import { setAddProductFlag } from '@/redux/userSlice'
+import { useSelector } from 'react-redux'
 export default function ProductPage({ params }) {
     const sizes = ['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12', '12.5', '13']
     const { id } = params
@@ -11,8 +10,8 @@ export default function ProductPage({ params }) {
     const [initialImg, setInitialImg] = useState()
     const [selectedSize, setSelectedSize] = useState()
     const [quantity, setQuantity] = useState(1)
-    const user = useSelector(state => state.user.user)
-    const cart = user ? user.cart : null
+    const cart = useSelector(state => state.user.user?.cartId)
+
     const getProducts = async () => {
         const response = await fetch(`http://localhost:8080/api/products/${id}`)
         const data = await response.json()
@@ -82,10 +81,10 @@ export default function ProductPage({ params }) {
                 </div>
             </div>
             <div className='infoColumn'>
-                <div className='flex  items-center'>
+                <div className='flex items-center'>
                     <p>{product.title}</p>
                 </div>
-                <div className='flex  items-center'>
+                <div className='flex items-center'>
                     <p>$ {product.price}</p>
                 </div>
                 <div className='flex  items-center justify-end'>

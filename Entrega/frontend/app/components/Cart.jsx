@@ -1,23 +1,21 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { DeleteIcon } from './Icons'
+import { useSelector } from 'react-redux'
 export default function Cart() {
     const [cart, setCart] = useState([])
-    const cartId = useSelector(state => state.user.user.cart)
+    const cartId = useSelector(state => state.user.user?.cartId)
     useEffect(() => {
-        getCart()
-    }, [])
+       cartId && getCart()
+    }, [cartId])
 
     const getCart = async () => {
         if (!cartId) return
         const response = await fetch(`http://localhost:8080/api/carts/${cartId}`)
         const data = await response.json()
-        console.log(data.products)
         setCart(data.products)
     }
-
-
+    
     const handleDelete = async (pid) => {
         await fetch(`http://localhost:8080/api/carts/${cartId}/product/${pid}`, {
             method: 'DELETE',
@@ -25,7 +23,7 @@ export default function Cart() {
                 'Content-Type': 'application/json'
             }
         })
-        getCart()
+        await getCart()
     }
     const subtotal = cart.reduce((accumulator, item) => {
         const itemTotal = item.product.price * item.quantity;
@@ -39,7 +37,7 @@ export default function Cart() {
                 {cart.length > 0 ?
                     cart.map((item) => {
                         return (
-                            <div className='flex justify-center mt-6 ml-5 mr-5'>
+                            <div key={item.product.title} className='flex justify-center mt-6 ml-5 mr-5'>
                                 <div className='flex justify-evenly min-w-full'>
                                     <div className='cartImgContainer flex justify-center items-center'>
                                         <img src={item.product.thumbnail[0]} className='cartImg' />

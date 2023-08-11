@@ -12,14 +12,14 @@ export const userSlice = createSlice({
         clearUser: (state) => {
             state.user = null
         },
-        setCart: (state, action) => {
-            state.user.cart = action.payload
+        setCartId: (state, action) => {
+            state.user.cartId = action.payload
         },
-        clearCart(state) {
+        clearCartId(state) {
             state.user.cart = null
-        }
+        },
     }
 })
 
-export const { setUser, clearUser, setCart, clearCart } = userSlice.actions
+export const { setUser, clearUser, setCartId, clearCartId } = userSlice.actions
 export default userSlice.reducer

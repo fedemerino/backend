@@ -3,7 +3,8 @@ import { decode } from "jsonwebtoken"
 import { useEffect } from "react"
 import { useCookies } from "react-cookie"
 import { useDispatch } from "react-redux"
-import { setUser, setCart } from "@/redux/userSlice"
+import { setUser, setCartId } from "@/redux/userSlice"
+
 export default function CheckUser() {
     const [cookies] = useCookies(['token'])
     const dispatch = useDispatch()
@@ -16,7 +17,7 @@ export default function CheckUser() {
             },
             body: JSON.stringify({ username })
         })
-        const data2 = await response2.json()
+        await response2.json()
         getCartId(username)
     }
 
@@ -26,7 +27,7 @@ export default function CheckUser() {
             const data = await res.json()
             console.log(data)
             if (data.status === 'success') {
-                dispatch(setCart(data.payload._id))
+                dispatch(setCartId(data.payload._id))
                 return
             }
             createCart(username)
@@ -44,6 +45,5 @@ export default function CheckUser() {
             getCartId(username)
 
         }
-    }, [])
-    return null
+    }, [cookies])
 }
