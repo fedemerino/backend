@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha test/products.test.js",
-    "frontend": "cd ./frontend && npm run dev",
+    "frontend": "cd ./frontend && npm run start",
     "server": "node ./src/server.js --mode production",
     "dev": "nodemon ./src/server.js --mode development",
     "start": "concurrently \"npm run server\" \"npm run frontend\""
