@@ -1,4 +1,7 @@
 node_modules/
-mongoDB.txt
 src/frontend/node_modules/
+.env
+.env.development
+.env.production
+mongoDB.txt
 readme.md

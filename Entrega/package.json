@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha test/carts.test.js",
+    "test": "mocha test/products.test.js",
     "frontend": "cd ./frontend && npm run dev",
     "server": "node ./src/server.js --mode production",
     "dev": "nodemon ./src/server.js --mode development",
