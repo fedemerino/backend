@@ -98,11 +98,12 @@ class SessionController {
         firstName,
         lastName
       }
-      await usersService.create(user)
+      const newUser = await usersService.create(user)
       
       res.status(200).send({
         status: 'success',
         message: 'User created successfully',
+        _id: newUser._id
       })
       req.logger.info(`${user.username} registered @  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
     } catch (error) {
@@ -164,6 +165,27 @@ class SessionController {
     try {
       let user = new CurrentSessionDto(req.user.user)
       res.send(user)
+    } catch (error) {
+      req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
+    }
+  }
+  deleteUser = async (req, res) => {
+    try {
+      const { email } = req.body
+      console.log(req.body)
+      const userDB = await usersService.get({ email })
+      if (!userDB) {
+        return res.status(401).send({
+          status: 'error',
+          message: 'The specified email is not registered'
+        })
+      }
+      await usersService.delete(userDB._id)
+      return res.status(200).send({
+        status: 'success',
+        message: 'User deleted successfully',
+        deletedUser: userDB
+      })
     } catch (error) {
       req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
     }

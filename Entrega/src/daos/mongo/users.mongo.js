@@ -20,6 +20,10 @@ class UsersDaoMongo {
     save = async (user) => {
         return await user.save()
     }
+
+    delete = async (param) => {
+        return await this.userModel.findOneAndDelete(param)
+    }
 }
 
 module.exports = UsersDaoMongo

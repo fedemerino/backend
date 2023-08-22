@@ -33,6 +33,13 @@ class UsersRepository {
             console.log(error)
         }
     }
+    delete = async (param) => {
+        try {
+            return await this.dao.delete(param)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 module.exports = UsersRepository

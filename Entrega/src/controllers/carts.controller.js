@@ -6,7 +6,6 @@ const productsService = require('../services/services').productsService
 class CartsController {
     getCarts = async (req, res) => {
         try {
-            console.log(req.user)
             const carts = await cartsService.get()
             res.status(200).send({ status: "success", carts })
         } catch (error) {
@@ -33,7 +32,6 @@ class CartsController {
     getCartByUsername = async (req, res) => {
         try {
             const { username } = req.params
-            console.log(username)
             const cart = await cartsService.getByUsername(username)
             if (!cart) {
                 req.logger.error(`error cart not found @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
@@ -50,8 +48,6 @@ class CartsController {
     
     createCart = async (req, res) => {
         try {
-            console.log('req.user', req.user)
-            console.log('req.body', req.body)
             const newCart = {
                 username: req.body.username,
                 products: []
@@ -108,17 +104,17 @@ class CartsController {
 
     deleteProductFromCart = async (req, res) => {
         const { cid, pid } = req.params
+        console.log('cid,pid',cid, pid)
         try {
             const cart = await cartsService.getById(cid)
             if (!cart) {
                 return res.status(400).send({ status: "error", error: "cart not found" })
             }
-            console.log(cart)
-            const productInCart = cart.products.find(product => product._id == pid)
+            const productInCart = cart.products.find(product => product.product == pid)
             if (!productInCart) {
                 return res.status(400).send({ status: "error", error: "product not found" })
             }
-            cart.products = cart.products.filter(product => product._id != pid)
+            cart.products = cart.products.filter(product => product.product != pid)
             await cartsService.getByIdAndUpdate(cid, cart)
             res.status(200).send({ status: "success", cart })
         }
@@ -146,7 +142,6 @@ class CartsController {
     createTicket = async (req, res) => {
         const { cid } = req.params
         try {
-            console.log(req.user)
             const cart = await cartsService.getByIdAndPopulate(cid)
             if (!cart) {
                 return res.status(400).send({ status: "error", error: "cart not found" })

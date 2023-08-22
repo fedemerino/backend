@@ -10,7 +10,8 @@ const {
   privateSection,
   githubLogin,
   githubCallback,
-  current
+  current,
+  deleteUser
 } = require("../controllers/sessions.controller")
 
 class SessionsRouter extends RouterClass {
@@ -23,6 +24,7 @@ class SessionsRouter extends RouterClass {
     this.get("/github", githubLogin)
     this.get("/githubcallback", githubCallback)
     this.get('/current', passportCall('jwt'), authorization('user'), current)
+    this.delete('/deleteUser', passportCall('jwt'), authorization('admin'), deleteUser)
   }
 }
 
