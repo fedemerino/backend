@@ -3,11 +3,11 @@ const supertest = require("supertest")
 const { expect } = chai
 const requester = supertest("http://localhost:8080/")
 
-describe("Products Test", async () => {
+describe("Products", async () => {
 
   let cookie
   let pid
-
+  
   it("Get all products", async () => {
     requester
       .get("api/products")
