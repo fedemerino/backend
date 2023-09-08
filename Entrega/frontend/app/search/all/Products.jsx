@@ -6,7 +6,7 @@ export default function Products({ products }) {
             products.length > 0 ?
                 products.map((product, index) => {
                     return (
-                        <MainProduct product={product} index={index} width={300} height={300} />
+                        <MainProduct product={product} index={index} width={300} height={300} key={product.code}/>
                     )
 
                 }) : <SkewLoader/>

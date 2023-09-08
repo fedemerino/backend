@@ -14,7 +14,7 @@ export default async function MainProducts() {
       <div className="flex flex-col container md:grid">
         {products.map((product, index) => {
           return (
-            <MainProduct product={product} index={index} isHome={true} />
+            <MainProduct product={product} index={index} isHome={true} key={product.code} />
           )
         })}
       </div>

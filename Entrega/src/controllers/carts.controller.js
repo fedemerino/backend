@@ -110,7 +110,7 @@ class CartsController {
             if (!cart) {
                 return res.status(400).send({ status: "error", error: "cart not found" })
             }
-            const productInCart = cart.products.find(product => product.product == pid)
+            const productInCart = cart.products.find(product => product.product._id == pid)
             if (!productInCart) {
                 return res.status(400).send({ status: "error", error: "product not found" })
             }

@@ -5,30 +5,33 @@ import { decode } from "jsonwebtoken";
 import { useState, useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 import { useRouter } from 'next/navigation';
-import {useDispatch} from 'react-redux'
-import { setUser, clearUser } from '@/redux/userSlice';
+import {useDispatch, useSelector} from 'react-redux'
+import { setUser, clearUser, setLoggedInStatus } from '@/redux/userSlice';
 export default function Login() {
     
     const [cookies, setCookie, removeCookie] = useCookies(['token'])
     const [token, setToken] = useState()
     const [isLoading, setIsLoading] = useState(true)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn)
     const router = useRouter()
     const dispatch = useDispatch()
 
     useEffect(() => {
+        console.log('isLoggedin', isLoggedIn)
         const accessToken = cookies.accessToken
         if (accessToken) {
             setToken(accessToken)
-            setIsLoggedIn(true)
             const decoded = decode(accessToken)
-            dispatch(setUser(decoded.user))
+            if (!isLoggedIn) {
+                dispatch(setUser(decoded.user))
+                dispatch(setLoggedInStatus(true))
+            }
         }
         setIsLoading(false)
     }, [])
     
 
-    const handleSubmit = async () => {
+    const handleSubmit = async(event) => {
         event.preventDefault()
         const email = event.target.email.value
         const password = event.target.password.value
@@ -44,10 +47,10 @@ export default function Login() {
         localStorage.setItem('token', json.accessToken)
         setCookie('accessToken', json.accessToken, { path: '/', maxAge: 60 * 60 * 24 })
         setToken(json.accessToken)
-        setIsLoggedIn(true)
-        setIsLoading(true)
         const decoded = decode(json.accessToken)
         dispatch(setUser(decoded.user))
+        dispatch(setLoggedInStatus(true))
+        setIsLoading(true)
         router.push('/')
     }
 
@@ -62,7 +65,7 @@ export default function Login() {
         localStorage.removeItem('token')
         removeCookie('accessToken')
         setToken(null)
-        setIsLoggedIn(false)
+        dispatch(setLoggedInStatus(false))
         dispatch(clearUser())
     }
 
@@ -75,7 +78,7 @@ export default function Login() {
                     />
                 </div> :
                 <>
-                    {isLoggedIn ?
+                    {isLoggedIn && token ?
                         <>
                             <h1 className="text-xl text-white mb-3">Welcome to Sneakers {decode(token).user.username} !</h1>
                             <button onClick={handleLogout} className="text-md defaultButton formInput">Logout</button>

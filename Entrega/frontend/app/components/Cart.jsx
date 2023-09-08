@@ -2,9 +2,9 @@
 import { useState, useEffect } from 'react'
 import { DeleteIcon } from './Icons'
 import { useSelector } from 'react-redux'
-export default function Cart() {
+export default function Cart({cartId}) {
     const [cart, setCart] = useState([])
-    const cartId = useSelector(state => state.user.user?.cartId)
+    
     useEffect(() => {
        cartId && getCart()
     }, [cartId])
@@ -50,7 +50,7 @@ export default function Cart() {
                                         </div>
                                     </div>
                                     <div>
-                                        <span className='cursor-pointer flex flex-col justify-center items-center gap-4' onClick={() => handleDelete(item._id)}>
+                                        <span className='cursor-pointer flex flex-col justify-center items-center gap-4' onClick={() => handleDelete(item.product._id)}>
                                             <DeleteIcon style={'deleteIcon'} />
                                             <p className='font-semibold text-sm'>$ {item.product.price * item.quantity}</p>
                                         </span>

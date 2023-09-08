@@ -32,7 +32,7 @@ export default function Navbar() {
                     </li>
                     <li className="text-zinc-400 hover:text-white cursor-pointer">
                         <Link href="/search/featured">
-                            Featured
+                            Featured ~ {user?.cartId}
                         </Link>
                     </li>
                 </ul>
@@ -62,7 +62,7 @@ export default function Navbar() {
                                 <h3 className='text-xl font-semibold ml-5'>MY ORDER</h3>
                             </div>
                             {user ?
-                                <Cart />
+                                <Cart cartId={user.cartId} />
                                 :
                                 <div className='flex min-w-full flex-col items-center justify-between mt-6 pl-5 pr-5'>
                                     <h3 className='font-medium'>Log in to see your cart</h3>

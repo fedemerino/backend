@@ -2,12 +2,14 @@
 import { decode } from "jsonwebtoken"
 import { useEffect } from "react"
 import { useCookies } from "react-cookie"
-import { useDispatch } from "react-redux"
-import { setUser, setCartId } from "@/redux/userSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { setUser, setCartId, setLoggedInStatus } from "@/redux/userSlice"
 
 export default function CheckUser() {
+
     const [cookies] = useCookies(['token'])
     const dispatch = useDispatch()
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn)
 
     const createCart = async (username) => {
         const response2 = await fetch(`http://localhost:8080/api/carts`, {
@@ -17,21 +19,20 @@ export default function CheckUser() {
             },
             body: JSON.stringify({ username })
         })
-        await response2.json()
-        getCartId(username)
+        const data = await response2.json()
+        await getCartId(username)
     }
 
     const getCartId = async (username) => {
         try {
             const res = await fetch(`http://localhost:8080/api/carts/user/${username}`)
             const data = await res.json()
-            console.log(data)
             if (data.status === 'success') {
                 dispatch(setCartId(data.payload._id))
-                return
+            } else {
+                await createCart(username)
             }
-            createCart(username)
-        } catch (error) {   
+        } catch (error) {
             console.log(error)
         }
     }
@@ -40,10 +41,29 @@ export default function CheckUser() {
         const accessToken = cookies.accessToken
         if (accessToken) {
             const decoded = decode(accessToken)
-            dispatch(setUser(decoded.user))
+            if (!isLoggedIn) {
+                dispatch(setUser(decoded.user))
+                dispatch(setLoggedInStatus( true))
+                console.log('!isloggedin')
+            }
+            console.log('isloggedin')
             const username = decoded.user.username.toString()
-            getCartId(username)
-
+            console.log(username)
+            const fetchCartData = async () => {
+                try {
+                    const res = await fetch(`http://localhost:8080/api/carts/user/${username}`)
+                    const data = await res.json()
+                    console.log(data)
+                    if (data.status == 'success') {
+                        dispatch(setCartId(data.payload._id))
+                    } else {
+                        await createCart(username)
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            fetchCartData()
         }
-    }, [cookies])
+    }, [cookies, isLoggedIn])
 }
