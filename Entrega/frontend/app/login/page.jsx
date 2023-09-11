@@ -4,14 +4,13 @@ import Link from "next/link"
 import { decode } from "jsonwebtoken"
 import { useState, useEffect } from "react"
 import { useCookies } from "react-cookie"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { setUser, clearUser,clearCartId } from "@/redux/userSlice"
 
 export default function Login() {
   const [cookies, setCookie, removeCookie] = useCookies(["token"])
   const [token, setToken] = useState()
   const [isLoading, setIsLoading] = useState(true)
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -19,10 +18,7 @@ export default function Login() {
     if (accessToken) {
       setToken(accessToken)
       const {user} = decode(accessToken)
-      console.log(user)
-      if (!isLoggedIn) {
         dispatch(setUser(user))
-      }
     }
     setIsLoading(false)
   }, [])
@@ -75,7 +71,7 @@ export default function Login() {
         </div>
       ) : (
         <>
-          {isLoggedIn && token ? (
+          {token ? (
             <>
               <h1 className="text-xl text-white mb-3">
                 Welcome to Sneakers {decode(token).user.username} !
