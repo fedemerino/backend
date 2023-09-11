@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { DeleteIcon } from './Icons'
-import { useSelector } from 'react-redux'
 export default function Cart({cartId}) {
     const [cart, setCart] = useState([])
     

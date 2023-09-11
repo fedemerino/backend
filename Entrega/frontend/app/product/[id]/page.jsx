@@ -10,7 +10,7 @@ export default function ProductPage({ params }) {
     const [initialImg, setInitialImg] = useState()
     const [selectedSize, setSelectedSize] = useState()
     const [quantity, setQuantity] = useState(1)
-    const cart = useSelector(state => state.user.user?.cartId)
+    const cart = useSelector(state => state.user.cartId)
 
     const getProducts = async () => {
         const response = await fetch(`http://localhost:8080/api/products/${id}`)
