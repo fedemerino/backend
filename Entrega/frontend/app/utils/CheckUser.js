@@ -39,13 +39,11 @@ export default function checkUser() {
   }
 
   useEffect(() => {
-    if (cookies.accessToken) {
+    if (cookies.accessToken && cookies.accessToken !== "undefined") {
       const { user } = decode(cookies.accessToken)
       const { username } = user
       dispatch(setUser(user))
       getCartId(username)
-      return true
     }
-    return false
   }, [])
 }

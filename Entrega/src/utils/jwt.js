@@ -7,6 +7,7 @@ const generateToken = (user) => {
 }
 
 const authToken = (req, res, next) => {
+    console.log('req', req.headers)
     const authHeader = req.headers['authorization']
     if (!authHeader) {
         return res.status(401).send({

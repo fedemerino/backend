@@ -11,16 +11,10 @@ const transport = nodemailer.createTransport({
 
 exports.sendMail = async (to, subject, html) => {
     return await transport.sendMail({
-        from: 'Federico',
+        from: 'Sneakers',
         to: to,
         subject: subject,
         html: html,
-        attachments: [
-            {
-                filename: 'af107.png',
-                path: 'src/public/img/af107.png',
-                cid: 'af107'
-            }
-        ]
+        attachments: []
     })
 }

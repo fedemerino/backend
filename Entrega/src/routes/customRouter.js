@@ -32,7 +32,7 @@ class RouterClass {
 
     handlePolicies = (policies) => async (req, res, next) => {
         try {
-            console.log(policies)
+            console.log(policies, 'policies')
             console.log(req.headers)
             if (policies === 'PUBLIC') return next()
             const authHeader = req.headers.authorization

@@ -5,20 +5,22 @@ import { decode } from "jsonwebtoken"
 import { useState, useEffect } from "react"
 import { useCookies } from "react-cookie"
 import { useDispatch } from "react-redux"
-import { setUser, clearUser,clearCartId } from "@/redux/userSlice"
+import { setUser, clearUser, clearCartId } from "@/redux/userSlice"
+import UserDashboard from "../components/UserDashboard"
 
 export default function Login() {
   const [cookies, setCookie, removeCookie] = useCookies(["token"])
   const [token, setToken] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [errorMsg, setErrorMsg] = useState("")
   const dispatch = useDispatch()
 
   useEffect(() => {
     const accessToken = cookies.accessToken
     if (accessToken) {
       setToken(accessToken)
-      const {user} = decode(accessToken)
-        dispatch(setUser(user))
+      const { user } = decode(accessToken)
+      dispatch(setUser(user))
     }
     setIsLoading(false)
   }, [])
@@ -35,14 +37,18 @@ export default function Login() {
       },
       body: JSON.stringify(data),
     })
-    const json = await response.json()
-    localStorage.setItem("token", json.accessToken)
-    setCookie("accessToken", json.accessToken, {
+    const res = await response.json()
+    if (res.status === 'error') {
+      setErrorMsg(res.message)
+      return
+    }
+    localStorage.setItem("token", res.accessToken)
+    setCookie("accessToken", res.accessToken, {
       path: "/",
       maxAge: 60 * 60 * 24,
     })
-    setToken(json.accessToken)
-    const { user } = decode(json.accessToken)
+    setToken(res.accessToken)
+    const { user } = decode(res.accessToken)
     dispatch(setUser(user))
     setIsLoading(true)
     window.location.reload()
@@ -72,50 +78,41 @@ export default function Login() {
       ) : (
         <>
           {token ? (
-            <>
-              <h1 className="text-xl text-white mb-3">
-                Welcome to Sneakers {decode(token).user.username} !
-              </h1>
-              <button
-                onClick={handleLogout}
-                className="text-md defaultButton formInput"
-              >
-                Logout
-              </button>
-            </>
+            <UserDashboard role={decode(token).user.role} user={decode(token).user.username} handleLogout={handleLogout} />
           ) : (
-            <>
-              <h1 className="text-xl text-white mb-3">Welcome to Sneakers!</h1>
-              <form
-                className="flex  flex-col justify-center align-center gap-3"
-                onSubmit={handleSubmit}
-              >
-                <input
-                  className="text-md text-zinc-500 border border-zinc-500 formInput"
-                  type="text"
-                  name="email"
-                  id="username"
-                  placeholder="email"
-                  required
-                />
-                <input
-                  className="text-md text-zinc-500 border border-zinc-500 formInput"
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Password"
-                  required
-                />
-                <input
-                  className="text-md text-zinc-500 border border-zinc-500 formInput"
+            <div className="text-center">
+              <h1 className="text-2xl text-white font-bold mb-6">Welcome to Sneakers!</h1>
+              <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <input
+                    className="w-full px-4 py-2 text-lg text-zinc-500 border rounded-md focus:outline-none focus:border-blue-500"
+                    type="text"
+                    name="email"
+                    id="username"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <input
+                    className="w-full px-4 py-2 text-lg text-zinc-500 border rounded-md focus:outline-none focus:border-blue-500"
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    required
+                  />
+                </div>
+                {errorMsg && <p className="text-red-500 mb-4">{errorMsg}</p>}
+                <button
+                  className="mb-2 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md text-lg"
                   type="submit"
-                  value="Login"
-                />
-                <Link href="/forgotPassword">
-                  <p>Forgot password?</p>
-                </Link>
+                >
+                  Login
+                </button>
               </form>
-            </>
+            </div>
+
           )}
         </>
       )}

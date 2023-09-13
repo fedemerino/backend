@@ -5,13 +5,18 @@ class ProductsDaoMongo {
         this.productModel = productModel
     }
 
-    get = async (mquery, limitNumber, pageNumber, sortType) => {
-        try {
-            return await this.productModel.paginate(mquery, { limit: limitNumber, page: pageNumber, sort: sortType })
-        } catch (error) {
-            console.log(error)
+    get = async (mquery, limitNumber, pageNumber, sortType, user) => {
+    try {
+        const query = { ...mquery }
+        if (user) {
+            query.owner = user
         }
+
+        return await this.productModel.paginate(query, { limit: limitNumber, page: pageNumber, sort: sortType })
+    } catch (error) {
+        console.log(error);
     }
+}
 
     getById = async (pid) => {
         try {

@@ -11,6 +11,54 @@ export const CartIcon = () => {
     )
 }
 
+export const EditIcon = () => {
+    return (
+        <svg
+            width="24"
+            height="24"
+            viewBox="0,0,256,256"
+            fill="#ffffff"
+            fillRule="nonzero"
+            stroke="none"
+            strokeWidth="1"
+            strokeLinecap="butt"
+            strokeLinejoin="miter"
+            strokeMiterlimit="10"
+            strokeDasharray=""
+            strokeDashoffset="0"
+            fontFamily="none"
+            fontWeight="none"
+            fontSize="none"
+            textAnchor="none"
+            style={{ mixBlendMode: 'normal' }}
+        >
+            <g transform="scale(8,8)">
+                <path d="M25,4.03125c-0.76562,0 -1.51562,0.29688 -2.09375,0.875l-9.90625,9.875l-0.21875,0.21875l-0.0625,0.3125l-0.6875,3.5l-0.3125,1.46875l1.46875,-0.3125l3.5,-0.6875l0.3125,-0.0625l0.21875,-0.21875l9.875,-9.90625c1.15234,-1.15234 1.15234,-3.03516 0,-4.1875c-0.57812,-0.57812 -1.32812,-0.875 -2.09375,-0.875zM25,5.96875c0.23438,0 0.46484,0.12109 0.6875,0.34375c0.44531,0.44531 0.44531,0.92969 0,1.375l-9.6875,9.6875l-1.71875,0.34375l0.34375,-1.71875l9.6875,-9.6875c0.22266,-0.22266 0.45313,-0.34375 0.6875,-0.34375zM4,8v20h20v-13.1875l-2,2v9.1875h-16v-16h9.1875l2,-2z"></path>
+            </g>
+        </svg>
+    )
+}
+
+export const CancelIcon = () => {
+    return (<svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 40 40"
+        width="30px"
+        height="30px"
+    >
+        <path fill="#f78f8f" d="M20,38.5C9.799,38.5,1.5,30.201,1.5,20S9.799,1.5,20,1.5S38.5,9.799,38.5,20S30.201,38.5,20,38.5z" />
+        <path fill="#c74343" d="M20,2c9.925,0,18,8.075,18,18s-8.075,18-18,18S2,29.925,2,20S10.075,2,20,2 M20,1 C9.507,1,1,9.507,1,20s8.507,19,19,19s19-8.507,19-19S30.493,1,20,1L20,1z" />
+        <path fill="#fff" d="M18.5 10H21.5V30H18.5z" transform="rotate(-134.999 20 20)" />
+        <path fill="#fff" d="M18.5 10H21.5V30H18.5z" transform="rotate(-45.001 20 20)" />
+    </svg>)
+}
+export const SaveIcon = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="30px" height="30px"><path fill="#bae0bd" d="M20,38.5C9.8,38.5,1.5,30.2,1.5,20S9.8,1.5,20,1.5S38.5,9.8,38.5,20S30.2,38.5,20,38.5z" /><path fill="#5e9c76" d="M20,2c9.9,0,18,8.1,18,18s-8.1,18-18,18S2,29.9,2,20S10.1,2,20,2 M20,1C9.5,1,1,9.5,1,20s8.5,19,19,19	s19-8.5,19-19S30.5,1,20,1L20,1z" /><path fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="3" d="M11.2,20.1l5.8,5.8l13.2-13.2" /></svg>
+    )
+}
+
+
 
 export const UserIcon = () => {
     return (
@@ -21,6 +69,15 @@ export const UserIcon = () => {
 export const DeleteIcon = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px"><path d="M 10 2 L 9 3 L 4 3 L 4 5 L 5 5 L 5 20 C 5 20.522222 5.1913289 21.05461 5.5683594 21.431641 C 5.9453899 21.808671 6.4777778 22 7 22 L 17 22 C 17.522222 22 18.05461 21.808671 18.431641 21.431641 C 18.808671 21.05461 19 20.522222 19 20 L 19 5 L 20 5 L 20 3 L 15 3 L 14 2 L 10 2 z M 7 5 L 17 5 L 17 20 L 7 20 L 7 5 z M 9 7 L 9 18 L 11 18 L 11 7 L 9 7 z M 13 7 L 13 18 L 15 18 L 15 7 L 13 7 z" /></svg>
+    )
+}
+
+export const DeleteIconWhite = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px">
+            <path fill="#ffffff" d="M 10 2 L 9 3 L 4 3 L 4 5 L 5 5 L 5 20 C 5 20.522222 5.1913289 21.05461 5.5683594 21.431641 C 5.9453899 21.808671 6.4777778 22 7 22 L 17 22 C 17.522222 22 18.05461 21.808671 18.431641 21.431641 C 18.808671 21.05461 19 20.522222 19 20 L 19 5 L 20 5 L 20 3 L 15 3 L 14 2 L 10 2 z M 7 5 L 17 5 L 17 20 L 7 20 L 7 5 z M 9 7 L 9 18 L 11 18 L 11 7 L 9 7 z M 13 7 L 13 18 L 15 18 L 15 7 L 13 7 z" />
+        </svg>
+
     )
 }
 

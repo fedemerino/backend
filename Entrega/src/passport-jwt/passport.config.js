@@ -7,12 +7,18 @@ require('dotenv').config()
 const cookieExtractor = (req, res) => {
     let token = null
     if (req && req.cookies) {
-        token = req.cookies['accessToken']
+        if (req.cookies['accessToken']) {
+            token = req.cookies['accessToken']
+        }
+        if (req.headers['authorization']) {
+            token = req.headers['authorization'].split(' ')[1]
+        }
     }
     return token
 }
 
 const initPassport = () => {
+    console.log(cookieExtractor())
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
         secretOrKey: process.env.JWT_PRIVATE_KEY

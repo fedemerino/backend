@@ -10,6 +10,7 @@ const sessionsRouter = require("./routes/sessions.router")
 const messagesRouter = require("./routes/messages.router")
 const fakerRouter = require("./routes/faker.router")
 const testRouter = require("./routes/test.router")
+const usersRouter = require("./routes/users.router")
 const { Server: ServerIO } = require('socket.io')
 const { Server: ServerHTTP } = require("http")
 const handlebars = require("express-handlebars")
@@ -18,7 +19,6 @@ const cookieParser = require("cookie-parser")
 const { socketProduct } = require("./utils/socketProduct")
 const session = require("express-session")
 const { create } = require('connect-mongo')
-// const { initPassport, initPassportGithub } = require("./config/passport.config")
 const cors = require("cors")
 const { initPassport } = require("./passport-jwt/passport.config")
 const passport = require("passport")
@@ -34,10 +34,6 @@ serverHTTP.listen(PORT, () => {
     logger.info(`listing on port ${PORT}`)
 })
 
-/* exports.initServer = () => serverHTTP.listen(PORT, () => {
-    logger.info(`listing on port ${PORT}`)
-}) */
-//const io = new ServerIO(httpServer)
 //_________________________________________________
 
 //handlebars
@@ -74,7 +70,7 @@ app.use(session({
         },
         ttl: 60 * 60 * 24,
     }),
-    secret: 'secretWord',
+    secret: 'jwtsecret',
     resave: true,
     saveUninitialized: true
 }))
@@ -82,9 +78,8 @@ app.use(session({
 //__________PASSPORT___________________
 
 initPassport()
-//initPassportGithub()
 passport.use(passport.initialize())
-//passport.use(passport.session())
+// passport.use(passport.session())
 //_______________________________
 
 app.use((req, res, next) => {
@@ -120,6 +115,7 @@ app.use("/", viewsRouter)
 app.use("/api/products", productsRouter.getRouter())
 app.use("/api/carts", cartsRouter.getRouter())
 app.use('/session', sessionsRouter.getRouter())
+app.use('/api/users',usersRouter.getRouter())
 app.use('/cookies', cookiesRouter)
 app.use('/messages', messagesRouter)
 app.use('/mockingproducts', fakerRouter)

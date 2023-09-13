@@ -4,9 +4,9 @@ class ProductsRepository {
     constructor(dao){
         this.dao = dao
     }
-    get = async (mquery, limitNumber, pageNumber, sortType) => {
+    get = async (mquery, limitNumber, pageNumber, sortType, user) => {
         try {
-            return await this.dao.get(mquery, limitNumber, pageNumber, sortType)
+            return await this.dao.get(mquery, limitNumber, pageNumber, sortType, user)
         } catch (error) {
             console.log(error)
         }

@@ -33,7 +33,7 @@ export default function Navbar() {
             <Link href="/search/new-arrivals">New Arrivals</Link>
           </li>
           <li className="text-zinc-400 hover:text-white cursor-pointer">
-            <Link href="/search/featured">Featured ~ {cartId}</Link>
+            <Link href="/search/featured">Featured</Link>
           </li>
         </ul>
       </div>

@@ -10,10 +10,6 @@ class SessionController {
   login = async (req, res) => {
     const { email, password } = req.body
     try {
-      let role = "user"
-      if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
-        role = "admin"
-      }
       const userDB = await usersService.getLean({ email })
       if (!userDB) {
         return res.send({
@@ -32,14 +28,14 @@ class SessionController {
         lastName: userDB.lastName,
         email: userDB.email,
         username: userDB.username,
-        role: role,
+        role: userDB.role,
       }
       const accessToken = generateToken({
         firstName: userDB.firstName,
         lastName: userDB.lastName,
         email: userDB.email,
         username: userDB.username,
-        role: role,
+        role: userDB.role,
       })
       req.logger.info(`${userDB.username} logged in @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
       res
@@ -50,7 +46,7 @@ class SessionController {
         .send({
           status: "success",
           message: "User logged in successfully",
-          role: role,
+          role: userDB.role,
           accessToken
         })
     } catch (error) {
@@ -96,7 +92,8 @@ class SessionController {
         password: createHash(password),
         email,
         firstName,
-        lastName
+        lastName,
+        role: 'user'
       }
       const newUser = await usersService.create(user)
       
@@ -171,8 +168,8 @@ class SessionController {
   }
   deleteUser = async (req, res) => {
     try {
+      console.log('entró')
       const { email } = req.body
-      console.log(req.body)
       const userDB = await usersService.get({ email })
       if (!userDB) {
         return res.status(401).send({
