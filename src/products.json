@@ -1,0 +1,41 @@
+[
+	{
+		"id": 1,
+		"title": "Nike Air Force 1 '07 LV8 EMB",
+		"description": "Zapatillas de Moda para Hombre",
+		"code": "NIKEAF107LV8EMB",
+		"price": 55999,
+		"status": true,
+		"stock": 10,
+		"category": "shoes",
+		"thumbnail": [
+			"/img/af107.png"
+		]
+	},
+	{
+		"id": 2,
+		"title": "Nike SB Dunk High Pro",
+		"description": "Zapatillas de Moda para Hombre",
+		"code": "NIKESBDUNKHIGHPRO",
+		"price": 65099,
+		"status": true,
+		"stock": 4,
+		"category": "shoes",
+		"thumbnail": [
+			"/img/sbdunkpro.png"
+		]
+	},
+	{
+		"id": 3,
+		"title": "Jordan Air 200E",
+		"description": "Zapatillas de Moda para Hombre",
+		"code": "JORDANA200E",
+		"price": 69999,
+		"status": true,
+		"stock": 3,
+		"category": "shoes",
+		"thumbnail": [
+			"/img/jordarair200.png"
+		]
+	}
+]
