@@ -1,5 +1,4 @@
 const socket = io()
-console.log('Realtime Products')
 
 let productContainer = document.getElementById('productContainer')
 

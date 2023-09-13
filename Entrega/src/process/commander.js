@@ -14,9 +14,7 @@ program
   .option("-l, --letters [letters...]", "letras que se van a utilizar")
 
 program.parse()
-/* console.log("options: ", program.opts())
-console.log("remaining: ", program.args)
- */
+
 process.on("exit", (code) => {
   console.log(`About to exit with code: ${code}`)
 })

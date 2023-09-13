@@ -4,7 +4,7 @@ import { CancelIcon, DeleteIconWhite, EditIcon, SaveIcon } from "./Icons"
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify"
 import ConfirmModal from "./ConfirmModal";
-export default function UserRow({ user }) {
+export default function UserRow({ user , handleFilterUsers}) {
     const [editMode, setEditMode] = useState(false)
     const [selectedRole, setSelectedRole] = useState(user.role)
     const [isOpenModal, setIsOpenModal] = useState(false)
@@ -21,11 +21,9 @@ export default function UserRow({ user }) {
         })
         const res = await response.json()
         if (res.status === 'success') {
+            handleFilterUsers(user)
             toast.success('User deleted successfully')
             handleOpenModal()
-            setTimeout(() => {
-                window.location.reload()
-            }, 1500)
         }
         else {
             toast.error('Something went wrong')

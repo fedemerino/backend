@@ -18,13 +18,11 @@ const cookieExtractor = (req, res) => {
 }
 
 const initPassport = () => {
-    console.log(cookieExtractor())
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
         secretOrKey: process.env.JWT_PRIVATE_KEY
     }, async (jwt_payload, done) => {
         try {
-            console.log('jwt-payload', jwt_payload)
             return done(null, jwt_payload)
         } catch (error) {
             console.log(error)

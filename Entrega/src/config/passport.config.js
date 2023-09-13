@@ -56,7 +56,6 @@ const initPassport = () => {
                 return done(null,false,{message: 'Incorrect email'})
             }
             if(!isValidPassword(password,userDB)){
-                console.log('Incorrect password')
                 return done(null,false,{message: 'Incorrect password'})
             }
             return done(null,userDB)            

@@ -99,13 +99,13 @@ export default function ProductPage({ params }) {
                 </div>
                 <div className='flex justify-center'>
                     <div className='flex quantityButtons justify-center items-center font-semibold'>
-                        <button className='quantityButton rounded-tl-2xl rounded-bl-2xl' onClick={() => handleSubtract(quantity)}>-</button>
+                        <button className={` ${quantity <= 1 ? 'cursor-not-allowed' : ''} quantityButton rounded-tl-2xl rounded-bl-2xl`} onClick={() => handleSubtract(quantity)}>-</button>
                         <p className='quantity'>{quantity}</p>
-                        <button className='quantityButton rounded-tr-2xl rounded-br-2xl' onClick={() => handleAdd(quantity)}>+</button>
+                        <button disabled={product.stock <= quantity} className={`${product.stock <= quantity ? 'cursor-not-allowed' : ''} quantityButton rounded-tr-2xl rounded-br-2xl`} onClick={() => handleAdd(quantity)}>+</button>
                     </div>
                 </div>
-                <button className='addToCartBtn mt-5' onClick={handleAddToCart}>
-                    Add to Cart
+                <button disabled={product.stock <= 0} className={`${product.stock <= 0 ? 'cursor-not-allowed' : 'cursor-pointer'} addToCartBtn mt-5`} onClick={handleAddToCart}>
+                    {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
                 </button>
             </div>
         </div>

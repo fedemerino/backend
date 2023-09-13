@@ -73,13 +73,13 @@ class CartsDaoFS {
           newProduct
         )
       }
-      else{
+      else {
         newProduct.quantity = 1
         cartProducts[cartIndex].products.push(newProduct)
       }
       this.cart = cartProducts
       this.appendCart()
-    } 
+    }
     catch (error) {
       console.log(error)
     }

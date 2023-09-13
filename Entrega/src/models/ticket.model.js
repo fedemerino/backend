@@ -14,6 +14,7 @@ const ticketSchema = new Schema({
       return uuid();
     }
   },
+  products: { type: Array },
   purchase_datetime: { type: Date, required: true, default: Date.now() },
   ammount: { type: Number, required: true },
   purchaser: { type: String, required: true },

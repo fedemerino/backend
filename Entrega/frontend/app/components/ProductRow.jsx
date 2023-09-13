@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie'
 import { useState, useRef } from 'react'
 import { toast } from 'react-toastify'
 import ConfirmModal from './ConfirmModal'
-export default function ProductRow({ product }) {
+export default function ProductRow({ product, handleFilterProducts }) {
 
     const [editMode, setEditMode] = useState(false)
     const [productData, setProductData] = useState(product)
@@ -45,12 +45,9 @@ export default function ProductRow({ product }) {
         })
         const res = await response.json()
         if (res.status === 'success') {
+            handleFilterProducts(product)
             toast.success('Product deleted successfully!')
             handleOpenModal()
-            setTimeout(() => {
-                window.location.reload()
-            }
-                , 1500)
         }
         else {
             toast.error('Something went wrong!')

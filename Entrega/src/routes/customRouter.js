@@ -32,17 +32,13 @@ class RouterClass {
 
     handlePolicies = (policies) => async (req, res, next) => {
         try {
-            console.log(policies, 'policies')
-            console.log(req.headers)
             if (policies === 'PUBLIC') return next()
             const authHeader = req.headers.authorization
-            console.log('authHeader', authHeader)
             if (!authHeader) return res.send('No token provided')
             const token = authHeader.split(' ')[1]
             const user = await jwt.verify(token, process.env.JWT_PRIVATE_KEY)
             if (!policies.includes(user.role.toUpperCase())) return res.send('Unauthorized')
             req.user = user
-            console.log('user', user)
             next()
         }
         catch (error) {

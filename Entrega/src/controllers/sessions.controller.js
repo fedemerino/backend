@@ -168,7 +168,6 @@ class SessionController {
   }
   deleteUser = async (req, res) => {
     try {
-      console.log('entró')
       const { email } = req.body
       const userDB = await usersService.get({ email })
       if (!userDB) {

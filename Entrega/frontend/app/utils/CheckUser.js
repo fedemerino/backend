@@ -34,7 +34,6 @@ export default function checkUser() {
       body: JSON.stringify({ username }),
     })
     const data = await response.json()
-    console.log(data)
     await getCartId(username)
   }
 

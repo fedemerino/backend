@@ -4,11 +4,20 @@ import UserRow from "./UserRow"
 import ProductRow from "./ProductRow"
 import ConfirmModal from "./ConfirmModal"
 import { toast } from 'react-toastify'
+import { setUser } from "@/redux/userSlice"
 export default function AdminDashboard({ role, user, handleLogout }) {
     const [activeTab, setActiveTab] = useState('Products')
     const [usersData, setUsersData] = useState([])
     const [productsData, setProductsData] = useState([])
     const [isOpenModal, setIsOpenModal] = useState(false)
+
+    const handleFilterUsers = (user) =>{
+        setUsersData(usersData.filter((u) => u.email !== user.email))
+    }
+
+    const handleFilterProducts = (product) =>{
+        setProductsData(productsData.filter((p) => p.code !== product.code))
+    }
 
     const handleOpenModal = () => {
         setIsOpenModal(!isOpenModal)
@@ -24,13 +33,11 @@ export default function AdminDashboard({ role, user, handleLogout }) {
         if (role === 'admin') {
             const response = await fetch('http://localhost:8080/api/products?limit=1000000')
             const data = await response.json()
-            console.log(data.payload)
             setProductsData(data.payload)
         }
         if (role === 'premium') {
             const response = await fetch(`http://localhost:8080/api/products?limit=1000000&user=${user}`)
             const data = await response.json()
-            console.log(data.payload)
             setProductsData(data.payload)
         }
     }
@@ -116,7 +123,6 @@ export default function AdminDashboard({ role, user, handleLogout }) {
 
                 </div>
                 {activeTab === 'Users' ? (
-                    // Render Users content
                     <div className="max-h-[80vh] overflow-auto">
                         <table className="min-w-full">
                             <thead>
@@ -132,7 +138,7 @@ export default function AdminDashboard({ role, user, handleLogout }) {
                             <tbody>
                                 {usersData.map((user) => (
                                     <tr key={user.id}>
-                                        <UserRow user={user} />
+                                        <UserRow user={user} handleFilterUsers={handleFilterUsers} />
                                     </tr>
                                 ))}
                             </tbody>
@@ -153,7 +159,7 @@ export default function AdminDashboard({ role, user, handleLogout }) {
                             <tbody>
                                 {productsData.map((product) => (
                                     <tr key={product.id}>
-                                        <ProductRow product={product} />
+                                        <ProductRow product={product} handleFilterProducts={handleFilterProducts} />
                                     </tr>
                                 ))}
                             </tbody>

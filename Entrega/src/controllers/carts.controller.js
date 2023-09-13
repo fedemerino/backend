@@ -158,11 +158,9 @@ class CartsController {
                     await productsService.update(product, { stock: stock - quantity })
                 }
             }
-
             const products = cart.products.filter(product => !notAvailableProducts.includes(product))
-
             const ticket = await ticketModel.create({
-                products: cart.products,
+                products: products,
                 ammount: products.reduce((acc, product) => acc + product.quantity * product.product.price, 0),
                 purchaser: req.user.email
             })
