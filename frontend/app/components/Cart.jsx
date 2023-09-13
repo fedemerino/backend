@@ -14,13 +14,13 @@ export default function Cart({ cartId }) {
 
     const getCart = async () => {
         if (!cartId) return
-        const response = await fetch(`http://localhost:8080/api/carts/${cartId}`)
+        const response = await fetch(`https://sneakers-r0yz.onrender.com/api/carts/${cartId}`)
         const data = await response.json()
         setCart(data.products)
     }
 
     const handleDelete = async (pid) => {
-        await fetch(`http://localhost:8080/api/carts/${cartId}/product/${pid}`, {
+        await fetch(`https://sneakers-r0yz.onrender.com/api/carts/${cartId}/product/${pid}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,7 +29,7 @@ export default function Cart({ cartId }) {
         await getCart()
     }
     const handleCheckout = async () => {
-        const response = await fetch(`http://localhost:8080/api/carts/${cartId}/purchase`, {
+        const response = await fetch(`https://sneakers-r0yz.onrender.com/api/carts/${cartId}/purchase`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -13,7 +13,7 @@ export default function ProductPage({ params }) {
     const cart = useSelector(state => state.user.cartId)
 
     const getProducts = async () => {
-        const response = await fetch(`http://localhost:8080/api/products/${id}`)
+        const response = await fetch(`https://sneakers-r0yz.onrender.com/api/products/${id}`)
         const data = await response.json()
         setProduct(data.payload)
         setInitialImg(data.payload.thumbnail[0])
@@ -34,7 +34,7 @@ export default function ProductPage({ params }) {
 
     const addProduct = async () => {
         try {
-            await fetch(`http://localhost:8080/api/carts/${cart}/product/${id}`, {
+            await fetch(`https://sneakers-r0yz.onrender.com/api/carts/${cart}/product/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

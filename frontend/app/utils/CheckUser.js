@@ -12,7 +12,7 @@ export default function checkUser() {
   const getCartId = async (username) => {
     try {
       const res = await fetch(
-        `http://localhost:8080/api/carts/user/${username}`
+        `https://sneakers-r0yz.onrender.com/api/carts/user/${username}`
       )
       const data = await res.json()
       if (data.status === "success") {
@@ -26,7 +26,7 @@ export default function checkUser() {
   }
 
   const createCart = async (username) => {
-    const response = await fetch(`http://localhost:8080/api/carts`, {
+    const response = await fetch(`https://sneakers-r0yz.onrender.com/api/carts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

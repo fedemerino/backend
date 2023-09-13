@@ -1,7 +1,7 @@
 const chai = require("chai")
 const supertest = require("supertest")
 const { expect } = chai
-const requester = supertest("http://localhost:8080/")
+const requester = supertest("https://sneakers-r0yz.onrender.com//")
 
 describe("Carts Test", async () => {
   let createdCart

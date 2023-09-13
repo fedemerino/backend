@@ -11,7 +11,7 @@ export default function UserRow({ user , handleFilterUsers}) {
     const [cookies] = useCookies(["token"])
     const token = cookies.accessToken
     const handleDeleteUser = async () => {
-        const response = await fetch(`http://localhost:8080/session/deleteUser`, {
+        const response = await fetch(`https://sneakers-r0yz.onrender.com/session/deleteUser`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export default function UserRow({ user , handleFilterUsers}) {
             email: user.email,
             role: selectedRole
         }
-        const response = await fetch(`http://localhost:8080/api/users/update`, {
+        const response = await fetch(`https://sneakers-r0yz.onrender.com/api/users/update`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

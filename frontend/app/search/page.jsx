@@ -9,7 +9,7 @@ export default function page() {
   const queryValue = searchParams.get('product').toLowerCase()
   const [response, setResponse] = useState()
   const getProducts = async () => {
-    const response = await fetch('http://localhost:8080/api/products')
+    const response = await fetch('https://sneakers-r0yz.onrender.com/api/products')
     const data = await response.json()
     const products = data.payload.filter((product) => product.title.toLowerCase().includes(queryValue))
     setResponse(products)

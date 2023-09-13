@@ -8,7 +8,7 @@ export default function Page() {
   const [response, setResponse] = useState()
 
   const getProducts = async () => {
-    const response = await fetch('http://localhost:8080/api/products')
+    const response = await fetch('https://sneakers-r0yz.onrender.com/api/products')
     const data = await response.json()
     setResponse(data.payload.sort((a,b) => new Date(b.created_at) - new Date(a.created_at)))
   }

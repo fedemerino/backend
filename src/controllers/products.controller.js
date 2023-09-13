@@ -29,10 +29,10 @@ class ProductsController {
 
             const { docs, totalDocs, limit, totalPages, page, hasNextPage, hasPrevPage, nextPage, prevPage } = products
             if (prevPage !== null) {
-                prevLink = `http://localhost:8080/api/products?page=${prevPage}&limit=${limitNumber}`
+                prevLink = `https://sneakers-r0yz.onrender.com/api/products?page=${prevPage}&limit=${limitNumber}`
             }
             if (nextPage !== null) {
-                nextLink = `http://localhost:8080/api/products?page=${nextPage}&limit=${limitNumber}`
+                nextLink = `https://sneakers-r0yz.onrender.com/api/products?page=${nextPage}&limit=${limitNumber}`
             }
             res.status(200).send({
                 status: 'success',

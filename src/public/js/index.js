@@ -20,7 +20,7 @@ form.addEventListener('submit', (e) => {
             console.log(res)
             localStorage.setItem('token', res.accessToken)
             if (res.status === 'success') {
-                window.location.href = 'http://localhost:8080/products'
+                window.location.href = 'https://sneakers-r0yz.onrender.com/products'
             }
         })
 })

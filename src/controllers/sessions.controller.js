@@ -111,7 +111,7 @@ class SessionController {
   logout = (req, res) => {
     req.session.destroy(err => {
       if (!err) {
-        res.redirect('http://localhost:8080/session/login')
+        res.redirect('https://sneakers-r0yz.onrender.com/session/login')
       }
       else {
         res.send({
@@ -147,11 +147,11 @@ class SessionController {
 
   githubCallback = async (req, res) => {
     try {
-      await passport.authenticate('github', { failureRedirect: 'http://localhost:8080/session/login' })(req, res)
+      await passport.authenticate('github', { failureRedirect: 'https://sneakers-r0yz.onrender.com/session/login' })(req, res)
       req.session.user = req.user
       req.logger.info(`${req.user.username} logged in @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
 
-      res.redirect('http://localhost:8080/products')
+      res.redirect('https://sneakers-r0yz.onrender.com/products')
     } catch (error) {
       req.logger.error(`error @ ${req.method} en ${req.originalUrl} -  ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
       res.status(500).send('Internal Server Error')

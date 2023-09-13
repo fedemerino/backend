@@ -30,7 +30,7 @@ export default function Login() {
     const email = event.target.email.value
     const password = event.target.password.value
     const data = { email, password }
-    const response = await fetch("http://localhost:8080/session/login", {
+    const response = await fetch("https://sneakers-r0yz.onrender.com/session/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export default function Login() {
   }
 
   const handleLogout = async () => {
-    const response = await fetch("http://localhost:8080/session/logout", {
+    const response = await fetch("https://sneakers-r0yz.onrender.com/session/logout", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

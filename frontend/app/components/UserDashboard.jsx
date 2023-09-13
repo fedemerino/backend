@@ -25,18 +25,18 @@ export default function AdminDashboard({ role, user, handleLogout }) {
 
     const getUsers = async () => {
         if (role !== 'admin') return
-        const response = await fetch('http://localhost:8080/api/users/all')
+        const response = await fetch('https://sneakers-r0yz.onrender.com/api/users/all')
         const data = await response.json()
         setUsersData(data)
     }
     const getProducts = async () => {
         if (role === 'admin') {
-            const response = await fetch('http://localhost:8080/api/products?limit=1000000')
+            const response = await fetch('https://sneakers-r0yz.onrender.com/api/products?limit=1000000')
             const data = await response.json()
             setProductsData(data.payload)
         }
         if (role === 'premium') {
-            const response = await fetch(`http://localhost:8080/api/products?limit=1000000&user=${user}`)
+            const response = await fetch(`https://sneakers-r0yz.onrender.com/api/products?limit=1000000&user=${user}`)
             const data = await response.json()
             setProductsData(data.payload)
         }
@@ -51,7 +51,7 @@ export default function AdminDashboard({ role, user, handleLogout }) {
     }
 
     const handleDeleteInactiveUsers = async () => {
-        const response = await fetch(`http://localhost:8080/api/users/inactive`, {
+        const response = await fetch(`https://sneakers-r0yz.onrender.com/api/users/inactive`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

@@ -2,7 +2,7 @@ import MainProduct from './MainProduct'
 
 
 async function getProducts() {
-  const response = await fetch('http://localhost:8080/api/products')
+  const response = await fetch('https://sneakers-r0yz.onrender.com/api/products')
   const data = await response.json()
   return data.payload.slice(0, 3)
 }
