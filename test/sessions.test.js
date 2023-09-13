@@ -1,7 +1,7 @@
 const chai = require("chai")
 const supertest = require("supertest")
 const { expect } = chai
-const requester = supertest("https://sneakers-r0yz.onrender.com//")
+const requester = supertest("http://localhost:8080/")
 
 describe("Sessions Test", async () => {
   let cookie
