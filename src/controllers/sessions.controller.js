@@ -96,7 +96,6 @@ class SessionController {
         role: 'user'
       }
       const newUser = await usersService.create(user)
-      
       res.status(200).send({
         status: 'success',
         message: 'User created successfully',

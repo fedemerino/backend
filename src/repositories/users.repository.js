@@ -20,8 +20,7 @@ class UsersRepository {
     }
     create = async (user) => {
         try {
-            const newUser = new UsersDto(user)
-            return await this.dao.create(newUser)
+            return await this.dao.create(user)
         } catch (error) {
             console.log(error)
         }
