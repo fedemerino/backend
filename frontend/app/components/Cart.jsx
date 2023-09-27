@@ -8,6 +8,7 @@ export default function Cart({ cartId }) {
     const token = cookies.accessToken
     const [cart, setCart] = useState([])
     const [checkout, setCheckout] = useState(false)
+    const [ticket, setTicket] = useState()
     useEffect(() => {
         cartId && getCart()
     }, [cartId])
@@ -37,7 +38,9 @@ export default function Cart({ cartId }) {
             }
         })
         const data = await response.json()
+        console.log(data, 'data')
         if (data.status === 'success') {
+            setTicket(data.ticket)
             setCheckout(true)
             setCart([])
             return
@@ -100,7 +103,8 @@ export default function Cart({ cartId }) {
                             <div className="text-center">
                                 <span className="text-6xl text-green-500">&#10004;</span>
                                 <h1 className="text-xl font-semibold mb-3">Thank you for your purchase!</h1>
-                                <p className="text-sm text-gray-600">Your order has been successfully placed.</p>
+                                <p className="text-sm text-gray-600">Order successfully placed.</p>
+                                <p className="text-sm text-gray-600">Your order number is {ticket.code} </p>
                             </div>
                         </div>
                     </div>

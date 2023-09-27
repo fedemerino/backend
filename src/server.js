@@ -79,7 +79,6 @@ app.use(session({
 
 initPassport()
 passport.use(passport.initialize())
-// passport.use(passport.session())
 //_______________________________
 
 app.use((req, res, next) => {

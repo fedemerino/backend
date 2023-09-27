@@ -58,7 +58,6 @@ class SessionController {
   register = async (req, res, next) => {
     try {
       const { username, password, email, firstName, lastName } = req.body
-      //VALIDAR QUE NO EXISTA EL MAIL NI EL USERNAME
       if (!username || !password || !email || !firstName || !lastName) {
         CustomError.createError({
           name: 'Invalid fields',
